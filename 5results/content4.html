@@ -1,0 +1,456 @@
+<section class="normal markdown-section">
+ <h1 id="django模型">
+  Django模型
+ </h1>
+ <p>
+  我们现在将要创建的是一个能存储我们博客所有文章的东西。为了达到这个目的，我们将要讲解一下一个被称为
+  <code>
+   objects（对象）
+  </code>
+  的东西.
+ </p>
+ <h2 id="对象">
+  对象
+ </h2>
+ <p>
+  在编程中有一个概念叫做
+  <code>
+   面向对象编程
+  </code>
+  。 它的思想是，与其用无聊的一连串的程序指令方式写程序，我们不如为事物建立模型，然后定义他们是怎样互相交互的。
+ </p>
+ <p>
+  那什么是对象呢？它是一个属性和操作的集合。它听起来很奇怪，但我们会给你一个例子。
+ </p>
+ <p>
+  如果我们想塑造一只猫的模型，我们会创建一个名为
+  <code>
+   Cat
+  </code>
+  的对象，它含有一些属性例如：
+  <code>
+   color
+  </code>
+  ,
+  <code>
+   age
+  </code>
+  ,
+  <code>
+   mood
+  </code>
+  (又比如：good, bad, sleepy)，还有
+  <code>
+   owner（主人）
+  </code>
+  (那是一个
+  <code>
+   Person
+  </code>
+  对象或者假若是流浪猫，这个属性可以为空)。
+ </p>
+ <p>
+  然后这个
+  <code>
+   Cat
+  </code>
+  会有一些行为:
+  <code>
+   purr
+  </code>
+  ,
+  <code>
+   scratch
+  </code>
+  , 或者
+  <code>
+   feed
+  </code>
+  (在这其中我们会给这只猫一些
+  <code>
+   CatFood
+  </code>
+  ，这个
+  <code>
+   CatFood
+  </code>
+  可以是单独的一个包含比如
+  <code>
+   taste
+  </code>
+  属性的对象).
+ </p>
+ <pre><code>Cat
+--------
+color
+age
+mood
+owner
+purr()
+scratch()
+feed(cat_food)
+
+
+CatFood
+--------
+taste
+</code></pre>
+ <p>
+  所以基本思想就是用包含属性的代码来描述真实的东西（称为
+  <code>
+   对象属性
+  </code>
+  ）和操作 （称为
+  <code>
+   方法
+  </code>
+  ).
+ </p>
+ <p>
+  我们将如何为博客帖子建立模型呢？我们想要建立一个博客，对吗？
+ </p>
+ <p>
+  我们需要回答一个问题：什么是一篇博客文章？它应该含有什么样的属性？
+ </p>
+ <p>
+  嗯，肯定我们的博客文章需要一些文本，包括内容与标题，对吗？ 我们也需要知道是谁写的 — — 所以我们需要一位作者。 最后，我们想要知道什么时候该文章创建并发布。
+ </p>
+ <pre><code>Post
+--------
+title
+text
+author
+created_date
+published_date
+</code></pre>
+ <p>
+  一篇博客文章需要做什么样的事情？应该有一些正确的
+  <code>
+   方法
+  </code>
+  来发布文章，对吗？
+ </p>
+ <p>
+  因此我们需要一个
+  <code>
+   publish
+  </code>
+  的方法
+ </p>
+ <p>
+  既然我们已经知道什么是我们想要实现的，让我们开始在Django里面为它建模！
+ </p>
+ <h2 id="django模型">
+  Django模型
+ </h2>
+ <p>
+  知道什么是对象，我们可以为我们的博客文章创建一个 Django 模型。
+ </p>
+ <p>
+  Django 里的模型是一种特殊的对象 — — 它保存在
+  <code>
+   数据库
+  </code>
+  中。 数据库是数据的集合。 这是您存储有关用户、 您的博客文章等信息的地方。 我们将使用SQLite 数据库来存储我们的数据。 这是默认的 Django 数据库适配器 — — 对于我们现在的需求而言它是足够的。
+ </p>
+ <p>
+  您可以将数据库中的模型看作是电子表格中的列 （字段） 和行 （数据）。
+ </p>
+ <h3 id="创建应用程序">
+  创建应用程序
+ </h3>
+ <p>
+  为了让一切保持整洁，我们将我们的项目内部创建单独的应用程序。 如果一开始就让每一件东西井然有序，那就太好了。 为了创建一个应用程序，我们需要在命令行中执行以下命令 (从
+  <code>
+   manage.py
+  </code>
+  文件所在的
+  <code>
+   djangogirls
+  </code>
+  目录)：
+ </p>
+ <pre><code>(myvenv) ~/djangogirls$ python manage.py startapp blog
+</code></pre>
+ <p>
+  你会注意到一个新的
+  <code>
+   blog
+  </code>
+  目录被创建，它现在包含一些文件。我们的目录和我们的项目中的文件现在应该看起来像这样：
+ </p>
+ <pre><code>djangogirls
+├── mysite
+|       __init__.py
+|       settings.py
+|       urls.py
+|       wsgi.py
+├── manage.py
+└── blog
+    ├── migrations
+    |       __init__.py
+    ├── __init__.py
+    ├── admin.py
+    ├── models.py
+    ├── tests.py
+    └── views.py
+</code></pre>
+ <p>
+  创建应用程序后，我们还需要告诉 Django 它应该使用它。 我们是在
+  <code>
+   mysite/settings.py
+  </code>
+  文件中这样做的。 我们需要找到
+  <code>
+   INSTALLED_APPS
+  </code>
+  并在它下面添加一行
+  <code>
+   'blog'
+  </code>
+  。 所以最终的代码应如下所示：
+ </p>
+ <pre><code>INSTALLED_APPS = (
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'blog',
+)
+</code></pre>
+ <h3 id="创建一个博客文章模型">
+  创建一个博客文章模型
+ </h3>
+ <p>
+  我们在
+  <code>
+   blog/models.py
+  </code>
+  文件中，定义所有的
+  <code>
+   Models
+  </code>
+  对象— — 我们将在其中都定义我们的博客文章。
+ </p>
+ <p>
+  让我们打开
+  <code>
+   blog/models.py
+  </code>
+  ，从中删除一切并编写这样的代码：
+ </p>
+ <pre><code>from django.db import models
+from django.utils import timezone
+
+
+class Post(models.Model):
+    author = models.ForeignKey('auth.User', on_delete=models.CASCADE)
+    title = models.CharField(max_length=200)
+    text = models.TextField()
+    created_date = models.DateTimeField(
+            default=timezone.now)
+    published_date = models.DateTimeField(
+            blank=True, null=True)
+
+    def publish(self):
+        self.published_date = timezone.now()
+        self.save()
+
+    def __str__(self):
+        return self.title
+</code></pre>
+ <blockquote>
+  <p>
+   当你在
+   <code>
+    str
+   </code>
+   的两端使用两个下划线字符（
+   <code>
+    _
+   </code>
+   ）的时候务必三思而后行。 这是Python编程里面的一种常见的约定写法，有时我们也叫这个做"dunder"("double-underscore"的缩写)。
+  </p>
+ </blockquote>
+ <p>
+  这看起来太吓人了，对吧？不过不用担心，我们会解释这几行是什么意思！
+ </p>
+ <p>
+  所有以
+  <code>
+   from
+  </code>
+  或
+  <code>
+   import
+  </code>
+  开始的所有行，都是需要从其他文件中添加一些内容。 所以与其复制和粘贴同样的内容，我们可以用
+  <code>
+   from...... import......
+  </code>
+  来导入这些文件.
+ </p>
+ <p>
+  <code>
+   class Post(models.Model):
+  </code>
+  - 这行是用来定义我们的模型 (这是一个
+  <code>
+   对象
+  </code>
+  ).
+ </p>
+ <ul>
+  <li>
+   <code>
+    class
+   </code>
+   是一个特殊的关键字，表明我们在定义一个对象。
+  </li>
+  <li>
+   <code>
+    Post
+   </code>
+   是我们模型的一个名字。我们可以给它取另外一个不同的名字(但是我们必须避免使用特殊字符或者空格符)。总是以首字母大写来作为类名。
+  </li>
+  <li>
+   <code>
+    models.Model
+   </code>
+   表明Post是一个Django模型，所以Django知道它应该被保存在数据库中。
+  </li>
+ </ul>
+ <p>
+  现在我们定义了我们曾经提及到的那些属性：
+  <code>
+   title
+  </code>
+  ,
+  <code>
+   text
+  </code>
+  ,
+  <code>
+   created_date
+  </code>
+  ,
+  <code>
+   published_date
+  </code>
+  和
+  <code>
+   author
+  </code>
+  。 为了做到那样我们需要为我们每个字段定义一个类型(它是文本吗？ 是数字？ 是日期？ 到另一个对象的关联，比如用户吗?）。
+ </p>
+ <ul>
+  <li>
+   <code>
+    models.CharField
+   </code>
+   - 这是你如何用为数有限的字符来定义一个文本。
+  </li>
+  <li>
+   <code>
+    models.TextField
+   </code>
+   - 这是没有长度限制的长文本。这听起来用在博客文章的内容上挺适合的，对吧？
+  </li>
+  <li>
+   <code>
+    models.DateTimeField
+   </code>
+   - 这是日期和时间。
+  </li>
+  <li>
+   <code>
+    models.ForeignKey
+   </code>
+   - 这是指向另一个模型的连接。
+  </li>
+ </ul>
+ <p>
+  我们不会对这里的代码解释得面面俱到因为那会花太多时间了。 如果你想了解更多有关模型字段以及如何定义除上面描述以外的东西，那你应该去看看Django的官方文档(
+  <a href="https://docs.djangoproject.com/zh-hans/2.2/ref/models/fields/" target="_blank">
+   https://docs.djangoproject.com/zh-hans/2.2/ref/models/fields/
+  </a>
+  )。
+ </p>
+ <p>
+  <code>
+   def publish(self):
+  </code>
+  又怎样呢? 这正是我们之前提及到的
+  <code>
+   publish
+  </code>
+  方法。
+  <code>
+   def
+  </code>
+  表明这是一个函数或者方法，
+  <code>
+   publish
+  </code>
+  是这个方法的名字。 如果你喜欢的话你可以改变方法名。 命名的规则是使用小写字母以及下划线而非空白符。 举个例子，一个计算平均价格的方法可以叫做
+  <code>
+   calculate_average_price
+  </code>
+  .
+ </p>
+ <p>
+  方法通常会
+  <code>
+   return
+  </code>
+  一些东西。 例如在
+  <code>
+   __str__
+  </code>
+  方法中就有这个。 在这种情况下，当我们调用
+  <code>
+   __str__()
+  </code>
+  我们将得到文章标题的文本 （
+  <strong>
+   字符串
+  </strong>
+  ）。
+ </p>
+ <p>
+  如果关于模型尚有不清楚的，请随时问你的教练 ！ 我们知道它很复杂，特别是当你同时学习对象和函数的时候。 但希望它在你看来没有那么神奇！
+ </p>
+ <h3 id="在你的数据库中为模型创建数据表">
+  在你的数据库中为模型创建数据表
+ </h3>
+ <p>
+  在这里的最后一步是将我们新的模型添加到我们的数据库。 首先我们必须让Django知道我们在我们的模型(我们刚刚创建的！) 有一些变更。 输入
+  <code>
+   python manage.py makemigrations blog
+  </code>
+  。 它看起来会像这样：
+ </p>
+ <pre><code>(myvenv) ~/djangogirls$ python manage.py makemigrations blog
+Migrations for 'blog':
+  blog\migrations\0001_initial.py:
+  - Create model Post
+</code></pre>
+ <p>
+  Django为我们准备了我们必须应用到我们数据库的迁移文件。输入
+  <code>
+   python manage.py migrate blog
+  </code>
+  ，然后对应的输出应该是:
+ </p>
+ <pre><code>(myvenv) ~/djangogirls$ python manage.py migrate blog
+Operations to perform:
+  Apply all migrations: blog
+Running migrations:
+  Applying blog.0001_initial... OK
+</code></pre>
+ <p>
+  万岁! 我们的Post模型现在已经在我们的数据库里面了! 它看起来很不错, 对吧? 跳转到下一个章节，看看你博客文章的样子！
+ </p>
+</section>

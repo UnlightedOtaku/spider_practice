@@ -1,0 +1,87 @@
+<section class="normal markdown-section">
+ <h1 id="django-admin-管理后台">
+  Django admin 管理后台
+ </h1>
+ <p>
+  我们将使用 Django admin 添加，编辑和删除我们刚刚创建的帖子。
+ </p>
+ <p>
+  让我们打开
+  <code>
+   blog/admin.py
+  </code>
+  文件，并替换其中的文件像这样：
+ </p>
+ <pre><code class="lang-python"><span class="hljs-keyword">from</span> django.contrib <span class="hljs-keyword">import</span> admin
+<span class="hljs-keyword">from</span> .models <span class="hljs-keyword">import</span> Post
+
+admin.site.register(Post)
+</code></pre>
+ <p>
+  如你所见，我们导入（包括）了前一章定义的Post模型。 为了让我们的模型在admin页面上可见，我们需要使用
+  <code>
+   admin.site.register(Post)
+  </code>
+  来注册模型.
+ </p>
+ <p>
+  OK, 现在来看看我们的 Post 模型。 记得先在控制台输入
+  <code>
+   python manage.py runserver
+  </code>
+  启动服务器。 然后打开浏览器，输入地址
+  <a href="http://127.0.0.1:8000/admin/" target="_blank">
+   http://127.0.0.1:8000/admin/
+  </a>
+  你会看到登录界面像这样:
+ </p>
+ <p>
+  <img alt="登录页面" src="https://cdn.py2china.cn/study-group/djangogirl/part1/login_page2.png" style="width: 40%;"/>
+ </p>
+ <p>
+  为了登录, 你需要创建一个掌控整个网站所有东西的
+  <em>
+   超级用户
+  </em>
+  。 回到刚才的命令行，输入
+  <code>
+   python manage.py createsuperuser
+  </code>
+  ，按下Enter。 然后输入你的用户名(英文小写，不包括空格), 邮箱和密码。 你输密码的时候看不见输入？别担心，它就是这样的。 你就输入要输得到然后按
+  <code>
+   Enter
+  </code>
+  继续就好了。 输出应该长得像这样（用户名和邮箱应该是你自己的，邮箱可以为空）：
+ </p>
+ <pre><code>(myvenv) ~/djangogirls$ python manage.py createsuperuser
+Username: your name
+Email address: your email
+Password:
+Password (again):
+Superuser created successfully.
+</code></pre>
+ <p>
+  返回到你的浏览器，用你刚才的超级用户来登录，然后你应该能看到Django admin的管理面板。
+ </p>
+ <p>
+  <img alt="Django管理" src="https://cdn.py2china.cn/study-group/djangogirl/part1/django_admin3.png" style="width: 70%;"/>
+ </p>
+ <p>
+  到 Posts 页面多试几次，发布5、6条博客文章，不用担心你的文章内容，你可以复制粘贴这个教程的一些文字，这样比较节约时间 :)。
+ </p>
+ <p>
+  请确保至少有两到三个帖子（但不是全部）具有设置的发布日期。它在以后会有用。
+ </p>
+ <p>
+  <img alt="Django管理" src="https://cdn.py2china.cn/study-group/djangogirl/part1/edit_post3.png" style="width: 100%;"/>
+ </p>
+ <p>
+  如果你想更多地了解Django admin模块，你可以查看Django 的官方文档:
+  <a href="https://docs.djangoproject.com/zh-hans/2.2/ref/contrib/admin/" target="_blank">
+   https://docs.djangoproject.com/zh-hans/2.2/ref/contrib/admin/
+  </a>
+ </p>
+ <p>
+  现在你可以来杯咖啡(或者是茶) 或吃点东西给自己充下电，你刚刚创建了你的第一个Django模型，你应该休息一下。
+ </p>
+</section>

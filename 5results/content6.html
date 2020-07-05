@@ -1,0 +1,753 @@
+<section class="normal markdown-section">
+ <h1 id="部署！">
+  部署！
+ </h1>
+ <blockquote>
+  <p>
+   <strong>
+    注
+   </strong>
+   这一章可以有时有点难打通。 坚持并完成它 ；部署是在网站开发过程的重要组成部分。 这一章放在本教程的中部，因此你的指导者可以帮助你在使网站上线中的一些小困难。 这意味着如果您花大量的时间，你仍然能独立完成这个教程。
+  </p>
+ </blockquote>
+ <p>
+  到目前为止您的网站只是在您的计算机上可用，现在您将了解如何部署它 ！ 部署是在互联网上发布你的应用程序的一系列过程，因此人们最终可以一起去看看你的应用程序。
+ </p>
+ <p>
+  正如你所学习的，一个网站必须要放到一个服务器上。 在互联网上你可以找到很多的服务器供应商。 我们将使用一个相对简单的部署过程:
+  <a href="https://www.pythonanywhere.com/" target="_blank">
+   PythonAnywhere
+  </a>
+  。 PythonAnywhere 对于一些没有太多访问者的小应用是免费的，所以它对你来说绝对是足够使用的。
+ </p>
+ <p>
+  其它我们将使用到的外部服务是
+  <a href="https://www.github.com" target="_blank">
+   GitHub
+  </a>
+  ，它是一个代码托管服务。 还有其它的一些服务，但当今几乎所有的程序员都有 GitHub 帐户，并且现在你也会有的！
+ </p>
+ <p>
+  我们将使用 GitHub 作为基石，以和 PythonAnywhere 互相传输我们的代码。
+ </p>
+ <h1 id="在-pythonanywhere-设置我们的博客">
+  在 PythonAnywhere 设置我们的博客
+ </h1>
+ <blockquote>
+  <p>
+   <strong>
+    注意
+   </strong>
+   你可能在之前的安装步骤中已经创建 PythonAnywhere 账户 — 如果是的话，那么无需再来一次。
+  </p>
+ </blockquote>
+ <p>
+  首先，让我们在PythonAnywhere（
+  <a href="https://www.pythonanywhere.com/" target="_blank">
+   www.pythonanywhere.com
+  </a>
+  ）注册（<a href="https://www.pythonanywhere.com/pricing/" target="_blank">
+   https://www.pythonanywhere.com/pricing/
+  </a>）一个“Beginner”账户。
+ </p>
+ <p>
+  <img alt="PythonAnywhere" src="https://cdn.py2china.cn/study-group/djangogirl/part2/pythonanywhere.png" style="width: 100%;"/>
+ </p>
+ <blockquote>
+  <p>
+   <strong>
+    注意
+   </strong>
+   在这里选择的用户名会出现在博客链接的地址当中
+   <code>
+    yourusername.pythonanywhere.com
+   </code>
+   ，因此最好选择你自己的绰号或者是与博客内容相关的名字。
+  </p>
+ </blockquote>
+ <h2 id="设置 ALLOWED_HOSTS">
+  设置 ALLOWED_HOSTS
+ </h2>
+ <p>
+  如果你要将你的网站部署在其它地方（如 PythonAnywhere），那么你需要设置
+  <code>
+   ALLOWED_HOSTS
+  </code>
+  。
+  <code>
+   ALLOWED_HOSTS
+  </code>
+  是为了限定请求中的host值，以防止黑客构造包来发送请求，保证只有在列表中的host才能访问。如果现在不理解也没关系，让我们先来设置它。
+ </p>
+ <p>
+  打开你的 djangogirl 项目，进入 mysite/settings.py，找到里面的
+  <code>
+   ALLOWED_HOSTS
+  </code>
+  ，未设置前应该是这样：
+ </p>
+ <pre><code>ALLOWED_HOSTS = []
+</code></pre>
+ <p>
+  现在，将你在 PythonAnywhere 的地址和本地地址加入
+  <code>
+   ALLOWED_HOSTS
+  </code>
+  ，加入后应该是这样:
+ </p>
+ <pre><code>ALLOWED_HOSTS = ['yourusername.pythonanywhere.com', '127.0.0.1']
+</code></pre>
+ <blockquote>
+  <p>
+   <strong>
+    注意
+   </strong>
+   <code>
+    ALLOWED_HOSTS
+   </code>
+   里面的
+   <code>
+    yourusername
+   </code>
+   应该换成你自己的。
+  </p>
+ </blockquote>
+ <h1 id="git">
+  Git
+ </h1>
+ <p>
+  Git是一个被大量程序员使用的"版本控制系统"。 此软件可以跟踪任何时间文件的改变，这样你以后可以随时召回某个特定版本。 有点像Microsoft Word 的"跟踪更改"功能 ，但更强大。
+ </p>
+ <h2 id="安装git">
+  安装Git
+ </h2>
+ <blockquote>
+  <p>
+   <strong>
+    注意
+   </strong>
+   如果你已经做过安装步骤了，你可以直接跳过这个步骤开始创建你自己的Git版本库。
+  </p>
+ </blockquote>
+ <h3 id="windows系统">
+  Windows系统
+ </h3>
+ <p>
+  你可以从
+  <a href="https://git-scm.com/" target="_blank">
+   git-scm.com
+  </a>
+  下载Git。 你可以在所有的安装步骤中点击"next next next"，除了第5步"Adjusting your PATH environment"，需要选择"Run Git and associated Unix tools from the Windows command-line"(底部的选项)。 除此之外，默认值都没有问题。 签出时使用 Windows 风格的换行符，提交时使用 Unix 风格的换行符，这样比较好。
+ </p>
+ <h3 id="macos系统">
+  MacOS系统
+ </h3>
+ <p>
+  从
+  <a href="https://git-scm.com/" target="_blank">
+   git-scm.com
+  </a>
+  下载Git,根据说明操作。
+ </p>
+ <h3 id="linux系统">
+  Linux系统
+ </h3>
+ <p>
+  如果git还没有被安装的话，你可以从你的软件包管理器中下载git, 请试试下面命令:
+ </p>
+ <pre><code>sudo apt install git
+# or
+sudo yum install git
+# or
+sudo zypper install git
+</code></pre>
+ <h2 id="开始我们自己的git版本库">
+  开始我们自己的Git版本库
+ </h2>
+ <p>
+  Git跟踪一组特定的在代码仓库（或简称“仓库”）中文件的更改。 我们开始用git管理自己的项目吧。 打开你的终端，进入
+  <code>
+   djangogirls
+  </code>
+  文件夹运行以下的命令：
+ </p>
+ <blockquote>
+  <p>
+   <strong>
+    注意
+   </strong>
+   在初始化仓库之前，请使用
+   <code>
+    pwd
+   </code>
+   命令 (OSX/Linux) 或者
+   <code>
+    cd
+   </code>
+   (Windows) 命令检查你当前的工作目录。 你应该是在
+   <code>
+    djangogirls
+   </code>
+   文件夹下运行命令。
+  </p>
+ </blockquote>
+ <pre><code>$ git init
+Initialized empty Git repository in ~/djangogirls/.git/
+$ git config --global user.name "Your Name"
+$ git config --global user.email you@example.com
+</code></pre>
+ <p>
+  每个项目我们只需要初始化一次Git仓库（而且你从此不需要重新输入用户名和邮箱）。
+ </p>
+ <p>
+  Git会追踪这个目录下所有文件和文件夹的更改，但是有一些文件我们希望Git忽略它。 为此，我们可以在系统根目录下创建一个命名为
+  <code>
+   .gitignore
+  </code>
+  的文件。 打开编辑器，创建新文件并写入以下内容：
+ </p>
+ <pre><code>*.pyc
+__pycache__
+myvenv
+db.sqlite3
+.DS_Store
+</code></pre>
+ <p>
+  然后在djangogirls项目根目录下保存为
+  <code>
+   .gitignore
+  </code>
+  文件。
+ </p>
+ <blockquote>
+  <p>
+   <strong>
+    注意
+   </strong>
+   在文件名最前面的"."很重要。 如果你在创建文件的时候有困难(例如，Macs不能通过Finder创建开头为"."的文件), 可以在编辑器里点击"另存为", 这个没问题的。
+  </p>
+ </blockquote>
+ <p>
+  在执行git操作之前，最好使用
+  <code>
+   git status
+  </code>
+  命令查看一下当前的状态，尤其是在执行
+  <code>
+   git add
+  </code>
+  或者在你不确定哪些文件被改动的情况下。 这有助于阻止各种意外发生，例如错误的文件被添加或提交。
+  <code>
+   git status
+  </code>
+  命令会返回所有未追踪/修改/暂存的文件，还有分支状态等信息。 输出会是这样：
+ </p>
+ <pre><code>$ git status
+On branch master
+
+Initial commit
+
+Untracked files:
+  (use "git add &lt;file&gt;..." to include in what will be committed)
+
+        .gitignore
+        blog/
+        manage.py
+        mysite/
+
+nothing added to commit but untracked files present (use "git add" to track)
+</code></pre>
+ <p>
+  最后保存我们的更改。转到你的控制台并运行这些命令：
+ </p>
+ <pre><code>$ git add --all .
+$ git commit -m "My Django Girls app, first commit"
+[...]
+13 files changed, 200 insertions(+)
+create mode 100644 .gitignore
+[...]
+create mode 100644 mysite/wsgi.py
+</code></pre>
+ <h2 id="推送我们的代码到-github-上">
+  推送我们的代码到 GitHub 上
+ </h2>
+ <p>
+  跳转到
+  <a href="https://www.github.com" target="_blank">
+   GitHub.com
+  </a>
+  网站，注册一个新的免费账号。（如果你在看线下活动之前就已经有账号的话，那就太好了！）
+ </p>
+ <p>
+  现在，创建一个新的仓库，命名为“my-first-blog”。 保持 "initialise with a README" 复选框未选中状态，.gitignore 选项为无 (我们已经手动创建了) ，让License设置为无。
+ </p>
+ <p>
+  <img alt="" src="https://cdn.py2china.cn/study-group/djangogirl/part1/new_github_repo.png" style="width: 100%;"/>
+ </p>
+ <blockquote>
+  <p>
+   <strong>
+    注意
+   </strong>
+   <code>
+    my-first-blog
+   </code>
+   这个名字很重要 — 你可以用其它的，但是这个名字会在教程中出现多次，你需要确保每次都替换掉它。 保持用
+   <code>
+    my-first-blog
+   </code>
+   这个名字可能更为简单.
+  </p>
+ </blockquote>
+ <p>
+  在下一屏中，你将看到你的仓库克隆 URL。选择“HTTPS”版本，拷贝地址，我们马上要把它粘贴到终端：
+ </p>
+ <p>
+  <img alt="" src="https://cdn.py2china.cn/study-group/djangogirl/part1/github_get_repo_url_screenshot.png" style="width: 100%;"/>
+ </p>
+ <p>
+  现在我们需要把你电脑上的Git仓库和GitHub上的挂接。
+ </p>
+ <p>
+  在控制台输入以下内容（替换
+  <code>
+   &lt;your-github-username&gt;
+  </code>
+  为你的 github 用户名 ，不包含尖括号）：
+ </p>
+ <pre><code>$ git remote add origin https://github.com/&lt;your-github-username&gt;/my-first-blog.git
+$ git push -u origin master
+</code></pre>
+ <p>
+  输入你的GitHub账号名和密码，然后你会看到这样：
+ </p>
+ <pre><code>Username for 'https://github.com': hjwp
+Password for 'https://hjwp@github.com':
+Counting objects: 6, done.
+Writing objects: 100% (6/6), 200 bytes | 0 bytes/s, done.
+Total 3 (delta 0), reused 0 (delta 0)
+To https://github.com/hjwp/my-first-blog.git
+ * [new branch]      master -&gt; master
+Branch master set up to track remote branch master from origin.
+</code></pre>
+ <!--TODO: maybe do ssh keys installs in install party, and point ppl who dont have it to an extention -->
+ <p>
+  你的代码已经在GitHub上了。 快去确认一下吧！ 你会发现这些好家伙们 —
+  <a href="https://github.com/django/django" target="_blank">
+   Django
+  </a>
+  ,
+  <a href="https://github.com/DjangoGirls/tutorial" target="_blank">
+   Django Girls Tutorial
+  </a>
+  ，还有很多其它优秀的开放源代码软件项目同样也在GitHub上 :)
+ </p>
+ <h2 id="在-pythonanywhere-上拉取我们的代码">
+  在 PythonAnywhere 上拉取我们的代码
+ </h2>
+ <p>
+  当然注册完 PythonAnywhere，你讲会转到仪表盘或“控制台”页面。 选择启动“Bash”控制台这一选项 — 这是 PythonAnywhere 版的控制台，就像你本地电脑上的一样。
+ </p>
+ <blockquote>
+  <p>
+   <strong>
+    注意
+   </strong>
+   PythonAnywhere 基于 Linux，因此如果你使用 Windows，控制台将会和你本地电脑上的略有不同。
+  </p>
+ </blockquote>
+ <p>
+  让我们通过创建一个我们仓库的 “Clone” 以便从 GitHub 拉取代码到 PythonAnywhere。 在 PythonAnywhere 控制台输入以下 (不要忘记使用 GitHub 用户名替换
+  <code>
+   &lt;your-github-username&gt;
+  </code>
+  )：
+ </p>
+ <pre><code>$ git clone https://github.com/&lt;your-github-username&gt;/my-first-blog.git
+</code></pre>
+ <p>
+  这将会拉取一份你的代码副本到 PythonAnywhere 上。通过键入
+  <code>
+   tree my-first-blog
+  </code>
+  查阅：
+ </p>
+ <pre><code>$ tree my-first-blog
+my-first-blog/
+├── blog
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── migrations
+│   │   ├── 0001_initial.py
+│   │   └── __init__.py
+│   ├── models.py
+│   ├── tests.py
+│   └── views.py
+├── manage.py
+└── mysite
+    ├── __init__.py
+    ├── settings.py
+    ├── urls.py
+    └── wsgi.py
+</code></pre>
+ <h3 id="在-pythonanywhere-上创建-virtualenv">
+  在 PythonAnywhere 上创建 virtualenv
+ </h3>
+ <p>
+  如同你在自己电脑上做的，你可以在 PythonAnywhere 上创建 virtualenv 虚拟环境。在 Bash 控制台下，键入（请把 python3.6 换成你在本地使用的 python 版本）：
+ </p>
+ <pre><code>$ cd my-first-blog
+
+$ virtualenv --python=python3.6 myvenv
+Running virtualenv with interpreter /usr/bin/python3.6
+[...]
+Installing setuptools, pip...done.
+
+$ source myvenv/bin/activate
+
+(mvenv) $  pip install django
+Collecting django
+[...]
+Installing collected packages: pytz, sqlparse, django
+Successfully installed django-2.2.6 pytz-2019.3 sqlparse-0.3.0
+</code></pre>
+ <blockquote>
+  <p>
+   <strong>
+    注意
+   </strong>
+   <code>
+    pip 安装
+   </code>
+   步骤可能需要几分钟。 耐心，耐心！但是如果超过 5 分钟，就不对劲了。 问问你的教练。
+  </p>
+ </blockquote>
+ <!--TODO: think about using requirements.txt instead of pip install.-->
+ <h3 id="收集静态文件。">
+  收集静态文件。
+ </h3>
+ <p>
+  静态文件是很少改动或者并非可运行的程序代码的那些文件，比如 HTML 或 CSS 文件。 在我们的计算机上，它们以不同的方式工作。
+ </p>
+ <p>
+  在教程后续编辑网站 CSS 章节会介绍更多有关静态文件的内容。
+ </p>
+ <p>
+  暂且我们只需要在服务器上运行一个额外的命令，就是
+  <code>
+   collectstatic
+  </code>
+  。 它告诉 Django 去收集服务器上所有需要的静态文件。 就眼下来说主要是使admin管理界面看起来更漂亮的文件。
+ </p>
+ <p>
+  当你首次运行这个命令时，会出现类似的结果：
+ </p>
+ <pre><code>(mvenv) $ python manage.py collectstatic
+
+119 static files copied to '/home/your_name/my-first-blog/static'.
+</code></pre>
+ <p>
+  当你再次运行时，由于 static 文件夹中已经有了之前收集的文件，所以会出现下面的选项：
+ </p>
+ <pre><code>(mvenv) $ python manage.py collectstatic
+
+You have requested to collect static files at the destination
+location as specified in your settings:
+
+/home/your_name/my-first-blog/static
+
+This will overwrite existing files!
+Are you sure you want to do this?
+
+Type 'yes' to continue, or 'no' to cancel: yes
+</code></pre>
+ <p>
+  键入 "yes", 然后它会自行运转！
+ </p>
+ <pre><code>
+  0 static files copied to '/home/your_name/my-first-blog/static', 119 unmodified.
+</code></pre>
+ <h3 id="在-pythonanywhere-上创建数据库">
+  在 PythonAnywhere 上创建数据库
+ </h3>
+ <p>
+  服务器与你自己的计算机不同的另外一点是：它使用不同的数据库。因此用户账户以及文章和你电脑上的可能会有不同。
+ </p>
+ <p>
+  我们可以像在自己的计算机上一样在服务器上初始化数据库，使用
+  <code>
+   migrate
+  </code>
+  以及
+  <code>
+   createsuperuser
+  </code>
+  ：
+ </p>
+ <pre><code>(mvenv) $ python manage.py migrate
+Operations to perform:
+[...]
+  Applying sessions.0001_initial... OK
+
+
+(mvenv) $ python manage.py createsuperuser
+
+Username: your name
+Email address:
+Password:
+Password (again):
+Superuser created successfully.
+</code></pre>
+ <h2 id="将我们的博客发布为一个网络应用程序">
+  将我们的博客发布为一个网络应用程序
+ </h2>
+ <p>
+  现在我们的代码已在PythonAnywhere上，我们的 virtualenv 已经准备好，静态文件已收集，数据库已初始化。我们准备好发布网络应用程序！
+ </p>
+ <p>
+  通过点击页面左上角的 蟒蛇 logo 返回到 PythonAnywhere 仪表盘，然后点击
+  <strong>
+   Web
+  </strong>
+  选项卡。最终，点
+  <strong>
+   Add a new web app
+  </strong>
+  .
+ </p>
+ <p>
+  在确认你的域名之后，选择对话框中
+  <strong>
+   manual configuration
+  </strong>
+  (注
+  <em>
+   不是
+  </em>
+  "Django" 选项) ： 下一步选择
+  <strong>
+   Python 3.6
+  </strong>
+  ，然后点击 Next 以完成该向导。
+ </p>
+ <blockquote>
+  <p>
+   <strong>
+    注意
+   </strong>
+   确保你选中 "Manual configuration" 选项，而不是 "Django" 那个。我们太牛逼，所以不要用 PythonAnywhere Django 默认设置 ;-)
+  </p>
+ </blockquote>
+ <h3 id="设置-virtualenv">
+  设置 virtualenv
+ </h3>
+ <p>
+  你将会被带到 PythonAnywhere 上你的Web 应用程序的配置屏，那个页面是每次你想修改服务器上你的应用程序时候要去的页面。
+ </p>
+ <p>
+  <img alt="" src="https://cdn.py2china.cn/study-group/djangogirl/part1/venv.png" style="width: 100%;"/>
+ </p>
+ <p>
+  在 “Virtualenv” 一节，点击红色文字 “Enter the path to a virtualenv"，然后键入：
+  <code>
+   /home/&lt;your-username&gt;/my-first-blog/myvenv/
+  </code>
+  。 前进之前，先点击有复选框的蓝色框以保存路径。
+ </p>
+ <blockquote>
+  <p>
+   <strong>
+    注意
+   </strong>
+   替换你自己的用户名。如果你犯了错，PythonAnywhere 会显示一个小警告。
+  </p>
+ </blockquote>
+ <h3 id="配置-wsgi-文件">
+  配置 WSGI 文件
+ </h3>
+ <p>
+  Django 使用 “WSGI 协议”，它是用来服务 Python 网站的一个标准。PythonAnywhere 支持这个标准。 PythonAnywhere 识别我们 Django 博客的方式是通过配置 WSGI 配置文件。
+ </p>
+ <p>
+  点击 “WSGI configuration file” 链接（在 "Code" 一节，接近页面上方 — 它将被命名为如
+  <code>
+   /var/www/&lt;your-username&gt;_pythonanywhere_com_wsgi.py
+  </code>
+  ），然后跳转到一个编辑器。
+ </p>
+ <p>
+  删除所有的内容并用以下内容替换：
+ </p>
+ <pre><code>import os
+import sys
+
+path = '/home/&lt;your-username&gt;/my-first-blog'  # use your own username here
+if path not in sys.path:
+    sys.path.append(path)
+
+os.environ['DJANGO_SETTINGS_MODULE'] = 'mysite.settings'
+
+from django.core.wsgi import get_wsgi_application
+
+application = get_wsgi_application()</code></pre>
+ <blockquote>
+  <p>
+   <strong>
+    注意
+   </strong>
+   当看到
+   <code>
+    &lt;your-username&gt;
+   </code>
+   时，别忘了替换为你自己的用户名。
+  </p>
+ </blockquote>
+ <p>
+  这个文件的作用是告诉 PythonAnywhere 我们的Web应用程序在什么位置，Django 设置文件的名字是什么。
+ </p>
+ <p>
+  点击
+  <strong>
+   Save
+  </strong>
+  然后返回到
+  <strong>
+   Web
+  </strong>
+  选项卡。
+ </p>
+ <p>
+  一切搞定！点击大大的绿色
+  <strong>
+   Reload
+  </strong>
+  按钮然后你将会看到你的应用程序。页面的顶部可以看到它的链接。
+ </p>
+ <p>
+  <img alt="" src="https://cdn.py2china.cn/study-group/djangogirl/update/success.png" style="width: 100%;"/>
+ </p>
+
+ <h3 id="配置静态文件地址">
+  配置静态文件地址
+ </h3>
+ <p>
+  到现在，你的网站已经成功部署在 PythonAnywhere 上了，但目前还有一个小问题，就是当你访问 <a href="http://&lt;your-username&gt;.pythonanywhere.com/admin/" target="_blank">http://<strong>&lt;your-username&gt;</strong>.pythonanywhere.com/admin/</a>（Django 后台 admin 页面）的时候，会发现 admin 页面还没有任何样式，类似这样：</p>
+ <blockquote>
+  <p>
+   <strong>
+    注意
+   </strong>
+   当看到
+   <code>
+    &lt;your-username&gt;
+   </code>
+   时，别忘了替换为你自己的用户名。
+  </p>
+ </blockquote>
+  <p>
+  <img alt="" src="https://cdn.py2china.cn/study-group/djangogirl/part1/static0.png" style="width: 100%;"/>
+ </p>
+
+ <p>这是因为静态文件还没有被成功加载，我们需要配置下静态文件的路径，让我们能通过 url 访问到我们已经收集在 <code>static/</code> 文件夹中的静态文件。</p>
+ <p>静态文件在 PythonAnywhere <strong>Web</strong> 选项卡的 <strong>Static files</strong> 节中进行配置，配置前如图所示：</p>
+  <p>
+  <img alt="" src="https://cdn.py2china.cn/study-group/djangogirl/part1/static3.png" style="width: 90%;"/>
+ </p>
+
+ <p>其中，<strong>URL</strong> 我们统一使用 <code>/static/</code> 以方便后面的操作，<strong>Directory</strong> 中是你静态文件在项目中的位置，这里我们使用完整路径：<code>/home/&lt;your-username&gt;/my-first-blog/static/</code>。</p>
+ <blockquote>
+  <p>
+   <strong>注意
+   </strong>
+   你要将 <strong>Directory</strong> 的路径改成你自己的静态文件路径，如果你之前完全按照我们的教程进行操作，你只用将
+   <code>
+    &lt;your-username&gt;
+   </code>
+   替换为你自己的用户名。
+  </p>
+ </blockquote>
+ <p>这样，我们就可以通过网址 <a>http://&lt;your-username&gt;.pythonanywhere.com/static/<strong>子文件夹1</strong>/<strong>文件1</strong></a> 来访问静态文件夹 <code>/home/&lt;your-username&gt;/my-first-blog/static/</code> 中 <strong>子文件夹1</strong> 中的 <strong>文件1</strong>。</p>
+ <p><strong>Static files</strong> 配置以后如图所示（<strong>注意</strong>：将 Qixiao 替换为你自己的用户名）：</p>
+   <p>
+  <img alt="" src="https://cdn.py2china.cn/study-group/djangogirl/part1/static4.png" style="width: 100%;"/>
+ </p>
+ <p>
+  配置完以后，点击 <strong>Web</strong> 页面最上方大大的绿色
+  <strong>
+   Reload
+  </strong>
+  按钮。
+ </p>
+  <p>
+    接着，访问一下 <a href="http://&lt;your-username&gt;.pythonanywhere.com/admin/" target="_blank">http://<strong>&lt;your-username&gt;</strong>.pythonanywhere.com/admin/</a>，就可以看到成功加载了静态文件，带有样式的页面了。类似这样：
+ </p>
+  <p>
+  <img alt="" src="https://cdn.py2china.cn/study-group/djangogirl/part1/static7.png" style="width: 100%;"/>
+ </p>
+
+ <h2 id="调试小贴士">
+  调试小贴士
+ </h2>
+ <p>
+  如果你在访问你的网站时候看到一个错误，首先要去
+  <strong>
+   error log
+  </strong>
+  中找一些调试信息。 你可以在 PythonAnywhere
+  <a href="https://www.pythonanywhere.com/web_app_setup/" target="_blank">
+   Web 选项卡
+  </a>
+  中发现它的链接。 检查那里是否有任何错误信息，底部是最新的信息。 常见问题包括：
+ </p>
+ <ul>
+  <li>
+   <p>
+    忘记我们在控制台中的步骤之一：创建 virtualenv，激活它，安装 Django 进去，运行 collectstatic，migrate 迁移数据库。
+   </p>
+  </li>
+  <li>
+   <p>
+    在 Web 选项卡中，virtualenv 路径设置错误 — 如果真是这样，这通常会是一个红色错误消息。
+   </p>
+  </li>
+  <li>
+   <p>
+    WSGI 文件设置错误 — 你的 my-first-blog 目录地址设置是否正确？
+   </p>
+  </li>
+  <li>
+   <p>
+    你是否为你的 virtualenv 选择了同样的 Python 版本，如同 Web 应用程序里的那样？两个应该都是 3.6。
+   </p>
+  </li>
+  <li>
+   <p>
+    有一些常见的调试小贴士在
+    <a href="https://www.pythonanywhere.com/wiki/DebuggingImportError" target="_blank">
+     general debugging tips on the PythonAnywhere wiki
+    </a>
+    里.
+   </p>
+  </li>
+ </ul>
+ <p>
+  记住，你的教练会在这里帮你！
+ </p>
+ <h1 id="你上线了！">
+  你上线了！
+ </h1>
+ <p>
+  你网站的默认页面说 “Welcome to Django”，如同你本地计算机上的一样。 试着添加
+  <code>
+   /admin/
+  </code>
+  到URL的末尾，然后你会到达管理者的页面。 输入用户名和密码登录，然后你会看到服务器上的 add new Posts 。
+ </p>
+ <p>
+  给你自己一个
+  <em>
+   超大
+  </em>
+  的鼓励！ 服务器部署是web开发中最棘手的部分之一， 它通常要耗费人们几天时间才能搞定。 但你的网站已经上线，运转在真正的互联网上，就是这样！
+ </p>
+</section>

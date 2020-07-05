@@ -1,0 +1,218 @@
+<section class="normal markdown-section">
+ <h1 id="模板扩展">
+  模板扩展
+ </h1>
+ <p>
+  另一个有趣的事情Django已经为你做好了就是
+  <strong>
+   模板扩展
+  </strong>
+  。这是什么意思呢？它意味着你可以使用你的HTML相同代码为你网站不同的网页共享。
+ </p>
+ <p>
+  通过这种方法，当你想使用同样的信息或布局，或者你想改变某些模板内容时，你不必在每个文件中都重复着相同的代码。你仅仅只需要改变一个文件，而不是所有的。
+ </p>
+ <h2 id="创建一个基础模板">
+  创建一个基础模板
+ </h2>
+ <p>
+  一个基础模板是最重要的模板，你扩展到你网站的每一页。
+ </p>
+ <p>
+  让我们创建一个
+  <code>
+   base.html
+  </code>
+  文件到
+  <code>
+   blog/templates/blog/
+  </code>
+  :
+ </p>
+ <pre><code>    blog
+    └───templates
+        └───blog
+                base.html
+                post_list.html
+</code></pre>
+ <p>
+  然后将它打开，从
+  <code>
+   post_list.html
+  </code>
+  中复制所有东西到
+  <code>
+   base.html
+  </code>
+  文件，就像这样：
+ </p>
+ <pre><code class="lang-html">    {% load static %}
+    <span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>Django Girls blog<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">"stylesheet"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">"stylesheet"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css"</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">'//fonts.googleapis.com/css?family=Lobster&amp;subset=latin,latin-ext'</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">'stylesheet'</span> <span class="hljs-attr">type</span>=<span class="hljs-string">'text/css'</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">"stylesheet"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"{% static 'css/blog.css' %}"</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"page-header"</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"/"</span>&gt;</span>Django Girls Blog<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+
+            <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"content container"</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"row"</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"col-md-8"</span>&gt;</span>
+                    {% for post in posts %}
+                        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"post"</span>&gt;</span>
+                            <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"date"</span>&gt;</span>
+                                {{ post.published_date }}
+                            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+                            <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">""</span>&gt;</span>{{ post.title }}<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+                            <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>{{ post.text|linebreaksbr }}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+                        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+                    {% endfor %}
+                    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+                <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span>
+</code></pre>
+ <p>
+  然后在
+  <code>
+   base.html
+  </code>
+  中，替换你所有的
+  <code>
+   &lt;body&gt;
+  </code>
+  (所有的在
+  <code>
+   &lt;body&gt;
+  </code>
+  和
+  <code>
+   &lt;/body&gt;
+  </code>
+  之间的内容)像这样：
+ </p>
+ <pre><code class="lang-html">    <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"page-header"</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"/"</span>&gt;</span>Django Girls Blog<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"content container"</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"row"</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"col-md-8"</span>&gt;</span>
+                {% block content %}
+                {% endblock %}
+                <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+</code></pre>
+ <p>
+  用如下内容替换所有在
+  <code>
+   {% for post in posts %}{% endfor %}
+  </code>
+  之间的代码：
+ </p>
+ <pre><code class="lang-html">    {% block content %}
+    {% endblock %}
+</code></pre>
+ <p>
+  这是什么意思呢？ 你刚刚创建了一个
+  <code>
+   block（块）
+  </code>
+  ，这个模板标签允许你在其中插入扩展自
+  <code>
+   base.html
+  </code>
+  的模板的HTML代码。 我们一会儿将给你展示这个如何使用。
+ </p>
+ <p>
+  现在保存它，然后再次打开你的
+  <code>
+   blog/templates/blog/post_list.html
+  </code>
+  。 删除一切body外的代码，然后删除
+  <code>
+   &lt;div class="page-header"&gt;&lt;/div&gt;
+  </code>
+  ，此时文件会看起来像这样：
+ </p>
+ <pre><code class="lang-html">    {% for post in posts %}
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"post"</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"date"</span>&gt;</span>
+                {{ post.published_date }}
+            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">""</span>&gt;</span>{{ post.title }}<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>{{ post.text|linebreaksbr }}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    {% endfor %}
+</code></pre>
+ <p>
+  然后现在将这行加到文件的开始：
+ </p>
+ <pre><code class="lang-html">    {% extends 'blog/base.html' %}
+</code></pre>
+ <p>
+  这意味着我们在
+  <code>
+   post_list.html
+  </code>
+  模板文件中扩展了
+  <code>
+   base.html
+  </code>
+  模板的内容。 还有一件事：将所有(除了我们刚刚加入的那行) 内容置于
+  <code>
+   {% block content %}
+  </code>
+  和
+  <code>
+   {% endblock %}
+  </code>
+  之间。。 像这样:
+ </p>
+ <pre><code class="lang-html">    {% extends 'blog/base.html' %}
+
+    {% block content %}
+        {% for post in posts %}
+            <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"post"</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"date"</span>&gt;</span>
+                    {{ post.published_date }}
+                <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">""</span>&gt;</span>{{ post.title }}<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>{{ post.text|linebreaksbr }}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+        {% endfor %}
+    {% endblock %}
+</code></pre>
+ <p>
+  好了，就是它了！检查你的网站还能正常工作：）
+ </p>
+ <blockquote>
+  <p>
+   如果你有任何错误
+   <code>
+    TemplateDoesNotExists
+   </code>
+   这意味着没有
+   <code>
+    blog/base.html
+   </code>
+   文件，你需要
+   <code>
+    runserver
+   </code>
+   运行在控制台，尝试去关掉它（通过按下Ctrl+C -Control和C按钮一切）然后重新运行
+   <code>
+    python manage.py runserver
+   </code>
+   命令行。
+  </p>
+ </blockquote>
+</section>

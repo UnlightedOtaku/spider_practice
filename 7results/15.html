@@ -1,0 +1,65 @@
+<head><meta charset='UTF-8'></head><h2>字符串格式化</h2>
+
+
+我们在输出字符串的时候，如果想对输出的内容进行一些整理，比如把几段字符拼接起来，或者把一段字符插入到另一段字符中间，就需要用到字符串的格式化输出。
+ 
+先从简单的开始，如果你想把两段字符连起来输出
+str1 = 'good'
+str2 = 'bye'
+ 
+你可以
+print(str1 + str2)
+ 
+或者还可以把字符变量一个字符串相加
+print('very' + str1)
+print(str1 + ' and ' + str2)
+ 
+但如果你想要把一个数字加到文字后面输出，比如这样
+num = 18
+print('My age is' + num)
+程序就会报错。因为字符和数字不能直接用 + 相加。
+ 
+一种解决方法是，用str()把数字转换成字符串
+print('My age is' + str(18))
+或
+num = 18
+print('My age is' + str(num))
+ 
+还有一种方法，就是用 % 对字符串进行格式化
+num = 18
+print('My age is %d' % num)
+输出的时候，原始字符串中的 %d 会被 % 后面的值替换。输出
+My age is 18
+ 
+这里，%d 只能用来替换整数。如果你想格式化的数值是小数，要用 %f
+print('Price is %f' % 4.99)
+输出
+Price is 4.990000
+ 
+如果你想保留两位小数，需要在f前面加上条件：%.2f
+print('Price is %.2f' % 4.99)
+输出
+Price is 4.99
+ 
+另外，可以用 %s 来替换一段字符串
+name = 'Crossin'
+print('%s is a good teacher.' % name)
+输出
+Crossin is a good teacher.
+ 
+或者
+print('Today is %s.' % 'Friday' )
+输出
+Today is Friday.
+ 
+注意区分：有引号的表示一段字符，没有引号的就是一个变量，这个变量可能是字符，也可能是数字，但一定要和%所表示的格式相一致。
+ 
+#======= 课后作业 ========#
+ 
+现在，试试看用字符串格式化改进一下之前你写的小游戏。
+比如你输了一个数字72，程序不仅只是告诉你大了还是小了，而是会回答你
+72 is too small.
+或者
+Bingo, 72 is the right answer!
+ 
+

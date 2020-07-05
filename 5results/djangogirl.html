@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Django Girl</title>
+
+    <link rel="stylesheet" href="https://python666.cn/static/minaclass/css/lesson.css">
+
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://python666.cn/static/minaclass/css/bootstrap.min.css">
+    <style>
+        .side-nav{
+            min-height: 500px;
+            padding: 0;
+            font-size: 16px;
+            padding-left: 10px;
+            background-color: #F5F7F9;
+        }
+        .side-color{
+            background-color: #F5F7F9;
+            font-weight: bold;
+        }
+        .first-page{
+            font-size: 16px;
+            font-weight: bold;
+            color:#5C6975;margin-left:0px;border-left-color:transparent;box-shadow:
+        }
+        .list-group a:hover{background-color: #e0effa;}
+        p {font-size: 14px; margin: 14px 0;}
+    </style>
+
+    <style>
+        .tips_marquee{
+            margin: 10px auto;
+        }
+        .tips_marquee_div{
+          overflow:hidden; //隐藏滚动条
+          margin-right: 20px;
+        }
+        //左侧喇叭的框
+        .left{
+            display: inline-block;
+            height: 80px;
+            width: 40px;
+            background:white;
+            padding-left:20px;
+            padding-right:20px;
+            float:left;
+
+        }
+        .tips_marquee_msg {
+            font-size: 20px;
+            color:#808080;
+            display: inline-block;
+            white-space: nowrap;
+            word-wrap: normal;
+            -webkit-animation: 10s marquee linear infinite;
+            animation: 10s marquee linear infinite;
+        }
+        .tips_marquee_msg:hover {
+            -webkit-animation-play-state: paused;
+            animation-play-state: paused;
+        }
+    </style>
+
+    <!-- 下面三行是前端代码高亮 -->
+    <link rel="stylesheet" href="https://python666.cn/static/minaclass/css/default.min.css">
+    <script src="https://python666.cn/static/minaclass/js/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    <script src="https://python666.cn/static/minaclass/js/bootstrap.js"></script>
+    <script src="https://python666.cn/static/minaclass/js/jquery-3.2.1.js"></script>
+
+    <script>
+        index = [
+            '前言', 'Django 是什么？', 'Django安装', '你的第一个Django 项目 ！','Django模型',
+            'Django管理','部署！','Django urls','Django视图 - 抓紧时间去创建！',
+            'HTML简介','Django ORM (查询集)','模板中的动态数据','Django模板','CSS - 让其更漂亮',
+            '模板扩展','扩展您的应用','Django表单','接下来呢？'
+        ]
+
+        var getUrlParameter = function getUrlParameter(sParam) {
+            var sPageURL = window.location.search.substring(1),
+                sURLVariables = sPageURL.split('&'),
+                sParameterName,
+                i;
+
+            for (i = 0; i < sURLVariables.length; i++) {
+                sParameterName = sURLVariables[i].split('=');
+
+                if (sParameterName[0] === sParam) {
+                    return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+                }
+            }
+        };
+
+        var page = getUrlParameter('page');
+
+        console.log('page is:' , page)
+
+        if (page === undefined) {
+            page = '0';
+        }
+
+        $(document).ready(function(){
+            $("#main_content").load("content"+page+".html",function (responseText, textStatus, XMLHttpRequest){
+                if (textStatus === 'error') {
+                    window.location.href='error.html';
+                }
+
+                page = parseInt(page)
+
+                var num_prev = page - 1
+                var num_next = page + 1
+
+                var prev = "<li class='previous'><a href='./djangogirl.html?page=" + num_prev + "'><span aria-hidden='true'>&larr;</span> " + index[num_prev] + "</a></li>"
+                var next = "<li class='next'><a href='./djangogirl.html?page=" + num_next + "'>" + index[num_next] + " <span aria-hidden='true'>&rarr;</span></a></li>"
+
+                if (page === 0) {
+                    $("#pre_next").html(
+                        next
+                    )
+                } else if (page===17) {
+                    $("#pre_next").html(
+                        prev
+                    )
+                } else {
+                    $("#pre_next").html(
+                        prev + next
+                    )
+                }
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <header style="position: relative;min-height: 51px;">
+        <nav class="navbar navbar-default navbar-fixed-top lab-navbar" style="margin-bottom: 0">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#ul_tags" >
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="http://crossincode.com" class="navbar-brand lab-text" target="_blank">Crossin的编程教室</a>
+            </div>
+            <div class="collapse navbar-collapse" id="ul_tags">
+                <ul class="nav navbar-nav">
+                    <li><a href="https://python666.cn/cls/lesson/list/">Python 入门</a></li>
+                    <li><a href="./djangogirl.html?page=0">Django Girl</a></li>
+                    <li class="dropdown">
+                        <a href="/" class="dropdown-toggle" data-toggle="dropdown" role="button">码上行动 <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="http://crossincode.com/school/course/1/" target="_blank">python零基础入门</a></li>
+                            <li><a href="http://crossincode.com/school/course/2/" target="_blank">爬虫实战</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="https://zhuanlan.zhihu.com/crossin" target="_blank">知乎专栏</a></li>
+                    <li><a href="https://lab.crossincode.com/" target="_blank">代码案例</a></li>
+                    <li><a href="http://bbs.crossincode.com/forum.php" target="_blank">交流论坛</a></li>
+                    <li class="active"><a href="/">爬虫练习</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    </header>
+
+    <main>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 side-nav" style="height: auto;">
+                    <div class="list-group" id="list_group">
+                        <a class="list-group-item side-color" href="./djangogirl.html?page=0" style="padding-left:30px; color: #9DAAB6; border-style: none;">前言</a>
+                        <a class="list-group-item side-color" href="./djangogirl.html?page=1" style="padding-left:30px; color: #9DAAB6; border-style: none;">Django 是什么？</a>
+                        <a class="list-group-item side-color" href="./djangogirl.html?page=2" style="padding-left:30px; color: #9DAAB6; border-style: none;">Django安装</a>
+                        <a class="list-group-item side-color" href="./djangogirl.html?page=3" style="padding-left:30px; color: #9DAAB6; border-style: none;">你的第一个Django 项目 ！</a>
+                        <a class="list-group-item side-color" href="./djangogirl.html?page=4" style="padding-left:30px; color: #9DAAB6; border-style: none;">Django模型</a>
+                        <a class="list-group-item side-color" href="./djangogirl.html?page=5" style="padding-left:30px; color: #9DAAB6; border-style: none;">Django管理</a>
+                        <a class="list-group-item side-color" href="./djangogirl.html?page=6" style="padding-left:30px; color: #9DAAB6; border-style: none;">部署！</a>
+                        <a class="list-group-item side-color" href="./djangogirl.html?page=7" style="padding-left:30px; color: #9DAAB6; border-style: none;">Django urls</a>
+                        <a class="list-group-item side-color" href="./djangogirl.html?page=8" style="padding-left:30px; color: #9DAAB6; border-style: none;">Django视图 - 抓紧时间去创建！</a>
+                        <a class="list-group-item side-color" href="./djangogirl.html?page=9" style="padding-left:30px; color: #9DAAB6; border-style: none;">HTML简介</a>
+                        <a class="list-group-item side-color" href="./djangogirl.html?page=10" style="padding-left:30px; color: #9DAAB6; border-style: none;">Django ORM (查询集)</a>
+                        <a class="list-group-item side-color" href="./djangogirl.html?page=11" style="padding-left:30px; color: #9DAAB6; border-style: none;">模板中的动态数据</a>
+                        <a class="list-group-item side-color" href="./djangogirl.html?page=12" style="padding-left:30px; color: #9DAAB6; border-style: none;">Django模板</a>
+                        <a class="list-group-item side-color" href="./djangogirl.html?page=13" style="padding-left:30px; color: #9DAAB6; border-style: none;">CSS - 让其更漂亮</a>
+                        <a class="list-group-item side-color" href="./djangogirl.html?page=14" style="padding-left:30px; color: #9DAAB6; border-style: none;">模板扩展</a>
+                        <a class="list-group-item side-color" href="./djangogirl.html?page=15" style="padding-left:30px; color: #9DAAB6; border-style: none;">扩展您的应用</a>
+                        <a class="list-group-item side-color" href="./djangogirl.html?page=16" style="padding-left:30px; color: #9DAAB6; border-style: none;">Django表单</a>
+                        <a class="list-group-item side-color" href="./djangogirl.html?page=17" style="padding-left:30px; color: #9DAAB6; border-style: none;">接下来呢？</a>
+                    </div>
+                    <script>
+                        $("#list_group").find("a[href$='page="+page+"']").css({
+                            "padding-left":"30px",
+                            "background-color":"#FFFFFF",
+                            "color":"#3884FF",
+                            "border-style":"none",
+                        });
+                    </script>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-9" style="padding-left: 0">
+                    <div class="ppx-main-block" style="padding-left: 10%;">
+
+                        <section id="main_content"></section>
+
+                        <nav aria-label="...">
+                          <ul class="pager" id="pre_next"></ul>
+                        </nav>
+                    </div>
+                </div>
+                <div class="col-lg-1 col-md-1 col-sm-1"></div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="lab-footer">
+        <div class="container-fluid">
+            <div class="row lab-footer-row">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <h4>Crossin的编程教室</h4>
+                <p>编程世界的新手村。扫描右侧二维码，关注公众号，获取更多学习资源</p>
+                <p>苏ICP备15063769号</p>
+
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <img src="https://python666.cn/static/minaclass/img/wxqr.jpg" alt="Crossin的编程教室二维码" class="lab-ft-img pull-right">
+            </div>
+        </div>
+        </div>
+    </footer>
+
+    <script src="https://python666.cn/static/minaclass/js/bootstrap.js"></script>
+    <script type="text/javascript" src="//tajs.qq.com/stats?sId=66447127" charset="UTF-8"></script>
+</body>
+</html>

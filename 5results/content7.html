@@ -1,0 +1,245 @@
+<section class="normal markdown-section">
+ <h1 id="django-urls">
+  Django urls
+ </h1>
+ <p>
+  我们将要建立第一个网页：你博客的主页！但是首先，让我们先学习一点 Django 的 url 知识。
+ </p>
+ <h2 id="什么是-url？">
+  什么是 URL？
+ </h2>
+ <p>
+  简单地说，URL 是一个网页地址。 每当你访问一个网站时，你都能在浏览器的地址栏里看到一个 URL。（是的！
+  <code>
+   127.0.0.1:8000
+  </code>
+  是一个URL！ 同时
+  <code>
+   https://djangogirls.org
+  </code>
+  也是一个 URL）：
+ </p>
+ <p>
+  <img alt="URL" src="https://cdn.py2china.cn/study-group/djangogirl/update/it_worked.png" style="width: 100%;"/>
+ </p>
+ <p>
+  每一个互联网的网页都需要自己的 URL。 这样当用户打开一个 URL 时，你的应用程序才知道应该展现什么内容。 在 Django 中，我们使用一种叫做
+  <code>
+   URLconf
+  </code>
+  （URL 配置）的机制 。 URLconf 是一套模式，Django 会用它来把 URL 匹配成相对应的 View。
+ </p>
+ <h2 id="url-在-django-中如何工作？">
+  URL 在 Django 中如何工作？
+ </h2>
+ <p>
+  使用你喜欢的编辑器打开
+  <code>
+   mysite/urls.py
+  </code>
+  就能看到它长什么样子了：
+ </p>
+ <pre><code>from django.contrib import admin
+from django.urls import path
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+]
+</code></pre>
+ <p>
+  正如你所看到的，Django 已经为我们放了一些东西在里面。
+ </p>
+ <p>
+  以
+  <code>
+   #
+  </code>
+  开头的行是注释，这些行都不会被Python运行。是不是很方便呢？
+ </p>
+ <p>
+  你在上一章节中学到的 admin 的 URL 已经在里面了：
+ </p>
+ <pre><code>path('admin/', admin.site.urls),
+</code></pre>
+ <p>
+  这表示对于每一个以
+  <code>
+   admin
+  </code>
+  开头的 URL，Django 都会找到一个相对应的
+  <em>
+   view
+  </em>
+  。 在这行代码中，我们包含了许多 admin URL 进来，所以这些 URL 不需要都被打包进这个小文件中。这使得代码更具可读性和简洁性。
+ </p>
+ <h2 id="你的第一个-django-url！">
+  你的第一个 Django url！
+ </h2>
+ <p>
+  是时候创建第一个 URL 了！我们想用 '
+  <a href="http://127.0.0.1:8000/" target="_blank">
+   http://127.0.0.1:8000/
+  </a>
+  ' 作为博客的首页，并展示一个帖子列表。
+ </p>
+ <p>
+  我们也想保持
+  <code>
+   mysite/urls.py
+  </code>
+  文件简洁，所以我们从
+  <code>
+   blog
+  </code>
+  应用导出 urls 到主
+  <code>
+   mysite/urls.py
+  </code>
+  文件。
+来吧，删除被注释掉的行（以
+  <code>
+   #
+  </code>
+  开头的行），然后添加一行代码用于把
+  <code>
+   blog.urls
+  </code>
+  导入到主 url (
+  <code>
+   ''
+  </code>
+  ).
+ </p>
+ <p>
+  你的
+  <code>
+   mysite/urls.py
+  </code>
+  文件现在应该看起来像这样：
+ </p>
+ <pre><code>from django.contrib import admin
+from django.urls import path, include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', include('blog.urls')),
+]
+</code></pre>
+ <p>
+  现在，Django 会把访问 '
+  <a href="http://127.0.0.1:8000/" target="_blank">
+   http://127.0.0.1:8000/
+  </a>
+  ' 的请求转到
+  <code>
+   blog.urls
+  </code>
+  ，并看看那里面有没有进一步的指示。
+ </p>
+ <h2 id="blogurls">
+  blog.urls
+ </h2>
+ <p>
+  现在我们创建一个新的
+  <code>
+   blog/urls.py
+  </code>
+  空文件。好了！加入以下两行：
+ </p>
+ <pre><code>from django.urls import path
+
+from . import views
+</code></pre>
+ <p>
+  我们仅仅把 Django 的方法以及
+  <code>
+   blog
+  </code>
+  应用的全部
+  <code>
+   views
+  </code>
+  导入了进来。（目前什么都没有，但是不超过一分钟就能搞好！） 然后，我们可以加入第一个 URL 模式：
+ </p>
+ <pre><code>urlpatterns = [
+    path('', views.post_list, name='post_list'),
+]
+</code></pre>
+ <p>
+  正如你所见，我们现在分配了一个叫作
+  <code>
+   post_list
+  </code>
+  的
+  <code>
+   view
+  </code>
+  到
+  <code>
+   ''
+  </code>
+  的 URL 上。 这个 path 只有空字符串会被匹配到。这是正确的，因为在 Django 的 URL 解析器中，'
+  <a href="http://127.0.0.1:8000/" target="_blank">
+   http://127.0.0.1:8000/
+  </a>
+  ' 并不是 URL 的一部分。（译注：即只有 '
+  <a href="http://127.0.0.1:8000/" target="_blank">
+   http://127.0.0.1:8000/
+  </a>
+  ' 后面的部分会被解析。如果后面的部分为空，即是空字符串被解析。） 这个模式告诉了 Django，如果有人访问 '
+  <a href="http://127.0.0.1:8000" target="_blank">
+   http://127.0.0.1:8000
+  </a>
+  ' 地址，那么
+  <code>
+   views.post_list
+  </code>
+  是这个请求该去到的地方。
+ </p>
+ <p>
+  最后的部分，
+  <code>
+   name='post_list'
+  </code>
+  是 URL 的名字，用来唯一标识对应的 view。 它可以跟 view 的名字一样，也可以完全不一样。 在项目后面的开发中，我们将会使用命名的 URL ，所以在应用中为每一个 URL 命名是重要的。我们应该尽量让 URL 的名字保持唯一并容易记住。
+ </p>
+ <p>
+  一切都搞定了？在浏览器里打开
+  <a href="http://127.0.0.1:8000/" target="_blank">
+   http://127.0.0.1:8000/
+  </a>
+  ，看看结果。
+ </p>
+ <p>
+  <img alt="错误" src="https://cdn.py2china.cn/study-group/djangogirl/part1/url_error.png" style="width: 100%;"/>
+ </p>
+ <p>
+  "The install worked successfully! Congratulations!" 不见了，啊？不要担心，这说明我们的代码还有问题，让我们看看命令行的输出：
+ </p>
+ <p>
+  <img alt="错误" src="https://cdn.py2china.cn/study-group/djangogirl/part1/url_info.png" style="width: 100%;"/>
+ </p>
+ <p>
+  你会发现有一个
+  <strong>
+   no attribute 'post_list'
+  </strong>
+  （没有 'post_list' 属性）的错误。
+  <em>
+   post_list
+  </em>
+  提醒你什么东西了吗？ 这是我们的 view 的名字！ 这表示其他的一切正常，但是我们还没创建这个
+  <em>
+   view
+  </em>
+  。 不要担心，我们将会抵达那里。
+ </p>
+ <blockquote>
+  <p>
+   如果你想知识更多关于 Django URLconf 的知识，去官方文档看一看：
+   <a href="https://docs.djangoproject.com/zh-hans/2.2/topics/http/urls/" target="_blank">
+    https://docs.djangoproject.com/zh-hans/2.2/topics/http/urls/
+   </a>
+  </p>
+ </blockquote>
+</section>

@@ -1,0 +1,288 @@
+<section class="normal markdown-section">
+ <h1 id="你的第一个django-项目-！">
+  你的第一个Django 项目 ！
+ </h1>
+ <blockquote>
+  <p>
+   本章的部分内容基于 Geek Girls Carrots (
+   <a href="https://github.com/ggcarrots/django-carrots" target="_blank">
+    https://github.com/ggcarrots/django-carrots
+   </a>
+   ) 的教程。
+  </p>
+  <p>
+   本章的部分是基于知识共享署名-4.0 国际许可协议许可的
+   <a href="http://django-marcador.keimlink.de/" target="_blank">
+    django marcador 教程
+   </a>
+   。 Django marcador 教程的版权由Markus Zapke-Gründemann 持有。
+  </p>
+ </blockquote>
+ <p>
+  我们将要创建一个简单的博客 ！
+ </p>
+ <p>
+  第一步是创建一个新的 Django 项目。 首先，我们需要运行一些由 Django 提供的脚本，为我们即将开始的项目建立主要骨架。 它会生成一系列的文件夹和文件，在后面的项目中我们会需要修改和使用到它们。
+ </p>
+ <p>
+  某些名称的文件和目录在 Django 起着至关重要的作用。 你不应该重命名我们将要创建的文件。 将它们移动到一个不同的地方也不是一个好主意。 Django 需要固定的系统结构，以便 Django 能够找到重要的东西。
+ </p>
+ <blockquote>
+  <p>
+   记住在虚拟环境中运行的一切。 如果您没有看到您的控制台中的前缀
+   <code>
+    （myvenv）
+   </code>
+   ，您需要激活您的虚拟环境。 我们在
+   <strong>
+    Django 安装
+   </strong>
+   这一节内的
+   <strong>
+    在虚拟环境下工作
+   </strong>
+   部分中解释过了。 在windows下面运行命令：myvenv\Scripts\activate，在苹果或linnux环境下运行命令：source myvenv/bin/activate
+  </p>
+ </blockquote>
+ <p>
+  在苹果或Linux系统下，你需要运行下面的命令,
+  <strong>
+   记得不要漏掉命令后面的小点（.）
+  </strong>
+  : (myvenv) ~/djangogirls$ django-admin startproject mysite .
+ </p>
+ <pre><code>(myvenv) ~/djangogirls$ django-admin startproject mysite .
+</code></pre>
+ <p>
+  在windows环境下也不要忘了下面命令最后的小点（其中 <code>Name</code> 是你的 windows 系统的用户名）。
+ </p>
+ <pre><code>(myvenv) C:\Users\Name\djangogirls&gt; django-admin startproject mysite .
+</code></pre>
+ <blockquote>
+  <p>
+   此时，符号"
+   <code>
+    .
+   </code>
+   "很重要，它将告诉脚本程序自动安装Django到你当前选择的目录中（所以这个“
+   <code>
+    .
+   </code>
+   ”是告诉脚本执行时的一种参考点）
+  </p>
+  <p>
+   <strong>
+    注意
+   </strong>
+   ：当敲入前面命令时，记住你是从
+   <code>
+    django-admin
+   </code>
+   或
+   <code>
+    django-admin.py
+   </code>
+   开始。 而命令串前面的
+   <code>
+    (myvenv) ~/djangogirls$
+   </code>
+   和
+   <code>
+    (myvenv) C:\Users\Name\djangogirls&gt;
+   </code>
+   则是由系统提示用户输入命令的光标位置，这部分不用用户输入。
+  </p>
+ </blockquote>
+ <p>
+  <code>
+   django-admin.py
+  </code>
+  是一个脚本，将自动为您创建目录和文件。前面的命令正确的话，你现在就应该有一个目录结构，看起来像下面这样：
+ </p>
+ <pre><code>djangogirls
+├───manage.py
+└───mysite
+        settings.py
+        urls.py
+        wsgi.py
+        __init__.py
+</code></pre>
+ <p>它是一个Django的项目文件夹，为即将开始的项目准备好了必要的资源文件和文件夹</p>
+ <p>
+  <code>
+   manage.py
+  </code>
+  是一个帮助管理站点的脚本。在它的帮助下我们将能够在我们的计算机上启动一个 web 服务器，而无需安装任何东西。
+ </p>
+ <p>
+  <code>
+   settings.py
+  </code>
+  文件包含的您的网站的配置数据。
+ </p>
+ <p>
+  还记得当我们谈到一名邮差在决定何处交付一封信时的例子吗？
+  <code>
+   urls.py
+  </code>
+  文件包含
+  <code>
+   urlresolver
+  </code>
+  所需的模型的列表。.
+ </p>
+ <p>
+  现在让我们忽略其他文件, 现在我们不会改变它们。要记住的唯一一点是不要不小心删除他们！
+ </p>
+ <h2 id="更改设置">
+  更改设置
+ </h2>
+ <p>
+  让我们在
+  <code>
+   mysite/settings.py
+  </code>
+  中进行一些更改。使用您前面安装了的代码编辑器打开文件。
+ </p>
+ <p>
+  在我们的站点上有正确的时间是非常不错的。 访问
+  <a href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones" target="_blank">
+   wikipedia timezones list
+  </a>
+  复制你所在地区的时区 (TZ). (eg.
+  <code>
+   Europe/Berlin
+  </code>
+  )
+ </p>
+ <p>
+  然后在 settings.py文件中, 找到包含 TIME_ZONE 字段的这行,并将时区改为你所在地区的时区。中国大陆地区可修改为 Asia/Shanghai，即：
+ </p>
+  <pre><code>TIME_ZONE = 'Asia/Shanghai'
+</code></pre>
+ <p>
+  我们还需要添加 (我们会找出在教程后面所提到的静态文件和 CSS文件) 静态文件的路径。 我们下拉到文件的
+  <em>
+   最底部
+  </em>
+  , 就是在
+  <code>
+   STATIC_URL
+  </code>
+  条目的下面。添加新的一行内容为
+  <code>
+   STATIC_ROOT
+  </code>
+  :
+ </p>
+ <pre><code>STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+</code></pre>
+ <h2 id="设置数据库">
+  设置数据库
+ </h2>
+ <p>
+  有很多的不同的数据库软件，可以用来存储你的网站数据。我们将使用默认的那个，
+  <code>
+   sqlite3
+  </code>
+  .
+ </p>
+ <p>
+  这已经在您的
+  <code>
+   mysite/settings.py
+  </code>
+  文件中设置了：
+ </p>
+ <pre><code>DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
+</code></pre>
+ <p>
+  若要为我们的博客创建一个数据库，，让我们运行以下命令在控制台中：
+  <code> python manage.py migrate </code>
+  （我们需要
+  <code> djangogirls </code>
+  目录中包含
+  <code> manage.py </code>
+  文件）。</p>
+ <p>如果运行过程中出现如下类似错误：</p>
+  <pre><code>(myvenv) ~/djangogirls$ python manage.py migrate
+   ...
+   ...
+   from _sqlite3 import *
+   ImportError: DLL load failed: The specified module could not be found.
+  </code></pre>
+ <p>那很可能是由于你没有安装 <code> sqlite </code> 数据库导致的。需要进入 <code> sqlite </code>下载页面：<a href="https://www.sqlite.org/download.html" target="_blank">https://www.sqlite.org/download.html</a> ，选择与自己操作系统的相符的安装包并下载安装。windows 系统下载安装参考：<a href="https://blog.csdn.net/ght886/article/details/83791355" target="_blank">https://blog.csdn.net/ght886/article/details/83791355</a>
+  </p>
+
+ <p>如果你已经装过 <code> anaconda </code> 还出现了上述的报错，则很有可能是漏掉安装 <code> sqlite </code> 的 <code> dll </code> 导致的，可以这样解决：<a href="https://blog.csdn.net/zhxdick/article/details/87708663" target="_blank">https://blog.csdn.net/zhxdick/article/details/87708663</a></p>
+
+ <p>如果一切顺利，您应该看到这样：</p>
+ <pre><code>(myvenv) ~/djangogirls$ python manage.py migrate
+Operations to perform:
+  Apply all migrations: admin, auth, contenttypes, sessions
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying auth.0001_initial... OK
+  Applying admin.0001_initial... OK
+  Applying admin.0002_logentry_remove_auto_add... OK
+  Applying admin.0003_logentry_add_action_flag_choices... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying sessions.0001_initial... OK
+</code></pre>
+ <p>
+  我们完成了 ！现在去启动网站服务器，看看是否我们的网站正在工作！
+ </p>
+ <p>
+  你必须要进入包含
+  <code>
+   manage.py
+  </code>
+  文件的目录 （
+  <code>
+   djangogirls
+  </code>
+  目录）。 在控制台中，我们可以通过运行
+  <code>
+   python manage.py runserver
+  </code>
+  开启 web 服务器：
+ </p>
+ <pre><code>(myvenv) ~/djangogirls$ python manage.py runserver
+</code></pre>
+ <p>
+  如果你在Windows系统遇到UnicodeDecodeError这个错误，用这个命令来代替
+ </p>
+ <pre><code>(myvenv) ~/djangogirls$ python manage.py runserver 0:8000
+</code></pre>
+ <p>
+  现在，你需要做的就是检测你的站点的服务器是否已经在运行了。打开你的浏览器（火狐，Chrome，Safari，IE 或者其他你惯用的浏览器）输入这个网址：
+ </p>
+ <pre><code>http://127.0.0.1:8000/
+</code></pre>
+ <p>
+  Web 服务器将接管你的命令行提示符，直到我们停止它。 <strong>为了尝试更多命令，我们应该同时打开一个新的终端，并激活虚拟环境。 想要停止 web 服务器，我们应该切换到刚才在运行程序的窗口，并且按下 CTRL+C - 同时按下 CTRL 键和字母 C 键</strong>。
+ </p>
+ <p>
+  祝贺你 ！你已经创建您的第一个网站，并使用 web 服务器运行它！这超级赞吧？
+ </p>
+ <p>
+  <img alt="它工作了！" src="https://cdn.py2china.cn/study-group/djangogirl/update/it_worked.png" style="width: 100%;"/>
+ </p>
+ <p>
+  准备好下一步了吗？现在来创建一些内容 ！
+ </p>
+</section>

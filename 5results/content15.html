@@ -1,0 +1,532 @@
+<section class="normal markdown-section">
+ <h1 id="扩展您的应用">
+  扩展您的应用
+ </h1>
+ <p>
+  我们已经完成了所有创建网站的各项不同必须的步骤：我们知道如何写一个模型，url，视图和模板。我们同样知道如何让我们网站更漂亮。
+ </p>
+ <p>
+  现在来练习吧！
+ </p>
+ <p>
+  我们网站里的第一件事情就是，一个展现一篇博客的页面，对吗？
+ </p>
+ <p>
+  我们已经有了
+  <code>
+   Post
+  </code>
+  模型，所以我们不需要再添加任何内容到
+  <code>
+   models.py
+  </code>
+  文件中。.
+ </p>
+ <h2 id="创建一个模板链接，跳转到博文的内容页">
+  创建一个模板链接，跳转到博文的内容页
+ </h2>
+ <p>
+  我们将从在
+  <code>
+   blog/templates/blog/post_list.html
+  </code>
+  里添加一个链接开始。目前它应该看起来像这样：
+ </p>
+ <pre><code class="lang-html">    {% extends 'blog/base.html' %}
+
+    {% block content %}
+        {% for post in posts %}
+            <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"post"</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"date"</span>&gt;</span>
+                    {{ post.published_date }}
+                <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">""</span>&gt;</span>{{ post.title }}<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>{{ post.text|linebreaksbr }}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+        {% endfor %}
+    {% endblock %}
+</code></pre>
+ <p>
+  我们在博文列表的博文标题处添加一个链接用于跳转到该博文的详细页面。 让我们编辑
+  <code>
+   &lt;h1&gt;&lt;a href=""&gt;{{ post.title }}&lt;/a&gt;&lt;/h1&gt;
+  </code>
+  使得它能链接到博文详情页面：。
+ </p>
+ <pre><code class="lang-html">    <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"{% url 'post_detail' pk=post.pk %}"</span>&gt;</span>{{ post.title }}<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+</code></pre>
+ <p>
+  是解释神秘的
+  <code>
+   {% url 'post_detail' pk=post.pk %}
+  </code>
+  时候了。 正如你所猜想的，
+  <code>
+   {% %}
+  </code>
+  标记意味着我们正在使用Django模板标签。 这一次我们将使用一个能为我们创建URL的！
+ </p>
+ <p>
+  <code>
+   blog.views.post_detail
+  </code>
+  是我们想创建的
+  <code>
+   post_detail
+  </code>
+  <em>
+   view
+  </em>
+  的路径。 请注意：
+  <code>
+   blog
+  </code>
+  是我们应用的名字 (
+  <code>
+   blog
+  </code>
+  目录),
+  <code>
+   views
+  </code>
+  是表单
+  <code>
+   views.py
+  </code>
+  文件的名字同时最后一个部分 -
+  <code>
+   post_detail
+  </code>
+  - 是
+  <em>
+   view
+  </em>
+  的名字。.
+ </p>
+ <p>
+  现在当我们访问：
+  <a href="http://127.0.0.1:8000/" target="_blank">
+   http://127.0.0.1:8000/
+  </a>
+  我们会得到一个错误（这是预料之中的，因为我们没有名为
+  <code>
+   post_detail
+  </code>
+  的 URL 或
+  <em>
+   视图
+  </em>
+  )。看起来会像这样:
+ </p>
+ <p>
+  <img alt="NoReverseMatch 错误" src="https://cdn.py2china.cn/study-group/djangogirl/update/noreversematch.png" style="width: 100%;"/>
+ </p>
+ <h2 id="创建文章详细页面的url">
+  创建文章详细页面的URL
+ </h2>
+ <p>
+  让我们在
+  <code>
+   urls.py
+  </code>
+  里为我们的
+  <code>
+   post_detail
+  </code>
+  <em>
+   view
+  </em>
+  创建一个URL!
+ </p>
+ <p>
+  我们希望我们的第一条文章详细页面显示在类似这样的
+  <strong>
+   URL
+  </strong>
+  ：
+  <a href="http://127.0.0.1:8000/post/1/" target="_blank">
+   http://127.0.0.1:8000/post/1/
+  </a>
+ </p>
+ <p>
+  让我们在
+  <code>
+   blog/urls.py
+  </code>
+  文件中增加一个 URL 来指引 Django 到名为
+  <code>
+   post_detail
+  </code>
+  的
+  <em>
+   view
+  </em>
+  ，它将用来显示整篇博客文章。 增加这行
+  <code>
+   path('post/&lt;int:pk&gt;/', views.post_detail, name='post_detail'),
+  </code>
+  到
+  <code>
+   blog/urls.py
+  </code>
+  文件。 文件应当如下所示：
+ </p>
+ <pre><code class="lang-python"><span class="hljs-keyword">from</span> django.urls <span class="hljs-keyword">import</span> path
+<span class="hljs-keyword">from</span> . <span class="hljs-keyword">import</span> views
+
+urlpatterns = [
+    path(<span class="hljs-string">''</span>, views.post_list, name=<span class="hljs-string">'post_list'</span>),
+    path(<span class="hljs-string">'post/&lt;int:pk&gt;/'</span>, views.post_detail, name=<span class="hljs-string">'post_detail'</span>),
+]
+</code></pre>
+ <p>
+  <code>
+   post/&lt;int:pk&gt;/
+  </code>
+  部分看上去很骇人，请勿担心，我们来解释给你听：
+  开头部分
+  <code>
+   post/
+  </code>
+  表示URL应当以
+  <strong>
+   post/
+  </strong>
+  开头。 到目前为止，一切都好。
+  <code>
+   &lt;int:pk&gt;/
+  </code>
+  这部分很棘手。我们使用尖括号“捕获”这部分 URL，且以关键字参数（这里的参数是
+  <code>
+   pk
+  </code>
+  ）的形式发送给视图函数。这表示Django会把所有你放到这里的东西转变成一个称作
+  <code>
+   pk
+  </code>
+  的变量并传递给视图。
+  <code>
+   int
+  </code>
+  是一个转换器，它决定了应该以数字变量类型匹配这部分的 URL 路径。
+  所以诸如
+  <code>
+   http://127.0.0.1:8000/post//
+  </code>
+  ，
+  <code>
+   http://127.0.0.1:8000/post/abc/
+  </code>
+  是无效的，但是像
+  <code>
+   http://127.0.0.1:8000/post/1234567890/
+  </code>
+  是完全OK的！
+ </p>
+ <p>
+  这意味着如果你键入
+  <code>
+   http://127.0.0.1:8000/post/5/
+  </code>
+  到你的浏览器里， Django 明白你在寻找一个叫做
+  <code>
+   post_detail
+  </code>
+  的
+  <em>
+   视图
+  </em>
+  ，然后传递
+  <code>
+   pk
+  </code>
+  等于
+  <code>
+   5
+  </code>
+  到那个
+  <em>
+   视图
+  </em>
+  .
+ </p>
+ <p>
+  <code>
+   pk
+  </code>
+  是
+  <code>
+   primary key（主键）
+  </code>
+  的缩写。 在Django项目中常常用到这个名字。 但是你可以使用你想要的变量（记住：使用小写以及
+  <code>
+   _
+  </code>
+  而不是空格！）。 比如也可以把
+  <code>
+   &lt;int:pk&gt;
+  </code>
+  写成
+  <code>
+   &lt;int:post_id&gt;
+  </code>
+  .
+ </p>
+ <p>
+  好吧，我们已经向
+  <code>
+   blog/urls.py
+  </code>
+  添加了一个新的 URL 模式！让我们刷新页面：
+  <a href="http://127.0.0.1:8000/" target="_blank">
+   http://127.0.0.1:8000/
+  </a>
+  Duang！还有另一个错误！果然！
+ </p>
+ <p>
+  <img alt="属性错误" src="https://cdn.py2china.cn/study-group/djangogirl/part3/error2.png" style="width: 90%;"/>
+ </p>
+ <p>
+  你还记得下面应该怎么做吗？当然：添加一个视图！
+ </p>
+ <h2 id="增加文章详细页面的视图">
+  增加文章详细页面的视图
+ </h2>
+ <p>
+  这次我们的
+  <em>
+   视图
+  </em>
+  提供了一个额外的参数
+  <code>
+   pk
+  </code>
+  。 我们的
+  <em>
+   视图
+  </em>
+  需要能捕获它，对吗？ 所以我们将定义我们的函数为
+  <code>
+   def post_detail(request, pk):
+  </code>
+  。 注意我们需要使用我们在urls里指定的参数（
+  <code>
+   pk
+  </code>
+  ，注意要和你 url.py 中参数保持一致）。 省略这个变量是不正确的，将会导致一个错误！
+ </p>
+ <p>
+  现在，我们想要有一个并且只有一个博客帖子。为了做到这一点，我们需要使用下面的请求集合：
+ </p>
+ <pre><code class="lang-python">post = Post.objects.get(pk=pk)
+</code></pre>
+ <p>
+  但是这段代码有一个问题。如果没有
+  <code>
+   Post
+  </code>
+  和给定
+  <code>
+   主键
+  </code>
+  （
+  <code>
+   pk
+  </code>
+  ）我们将有一个非常丑陋的错误！
+ </p>
+ <p>
+  <img alt="对象不存在错误" src="https://cdn.py2china.cn/study-group/djangogirl/update/error3.png" style="width: 70%;"/>
+ </p>
+ <p>
+  我们不希望那样！ 但是，当然，Django已经为我们处理好了这些：
+  <code>
+   get_object_or_404
+  </code>
+  。 万一没有
+  <code>
+   Post
+  </code>
+  和给定的
+  <code>
+   pk
+  </code>
+  ，它将展现更多有趣的页面（称作
+  <code>
+   Page Not Found 404
+  </code>
+  页面）。
+ </p>
+ <p>
+  <img alt="找不到页面" src="https://cdn.py2china.cn/study-group/djangogirl/part3/page_not_found.png" style="width: 100%;"/>
+ </p>
+ <p>
+  好消息是你实际上可以创建你自己
+  <code>
+   Page not found
+  </code>
+  的页面和使它漂亮如你所愿。但现在它不是超级重要的，所以我们将跳过它。
+ </p>
+ <p>
+  好吧，是时候将
+  <em>
+   视图
+  </em>
+  添加到我们的
+  <code>
+   views.py
+  </code>
+  文件了！
+ </p>
+ <p>
+  我们应该打开
+  <code>
+   blog/views.py
+  </code>
+  并添加以下代码：
+ </p>
+ <pre><code class="lang-python">    <span class="hljs-keyword">from</span> django.shortcuts <span class="hljs-keyword">import</span> render, get_object_or_404
+</code></pre>
+ <p>
+  在
+  <code>
+   from
+  </code>
+  附近 行。并在文件的末尾，我们将增加我们的
+  <em>
+   view
+  </em>
+  ：
+ </p>
+ <pre><code class="lang-python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">post_detail</span><span class="hljs-params">(request, pk)</span>:</span>
+    post = get_object_or_404(Post, pk=pk)
+    <span class="hljs-keyword">return</span> render(request, <span class="hljs-string">'blog/post_detail.html'</span>, {<span class="hljs-string">'post'</span>: post})
+</code></pre>
+ <p>
+  好了。是时候刷新页面了：
+  <a href="http://127.0.0.1:8000/" target="_blank">
+   http://127.0.0.1:8000/
+  </a>
+ </p>
+ <p>
+  <img alt="文章列表" src="https://cdn.py2china.cn/study-group/djangogirl/part2/post_list2.png" style="width: 70%;"/>
+ </p>
+ <p>
+  它工作了 ！但是，当您单击博客文章标题中的某个链接时，会发生什么呢？
+ </p>
+ <p>
+  <img alt="模板不存在的错误" src="https://cdn.py2china.cn/study-group/djangogirl/update/error4.png" style="width: 70%;"/>
+ </p>
+ <p>
+  哦不 ！另一个错误 ！但我们已经知道如何处理它，对吗？我们需要添加一个模板 ！
+ </p>
+ <h2 id="为文章详细页面增加模板">
+  为文章详细页面增加模板
+ </h2>
+ <p>
+  我们将在
+  <code>
+   blog/templates/blog
+  </code>
+  中创建一个文件，叫做
+  <code>
+   post_detail.html
+  </code>
+  .
+ </p>
+ <p>
+  它看起来会像这样：
+ </p>
+ <pre><code class="lang-python">    {% extends 'blog/base.html' %}
+
+    {% block content %}
+        &lt;div class="post"&gt;
+            {% if post.published_date %}
+                &lt;div class="date"&gt;
+                    {{ post.published_date }}
+                &lt;/div&gt;
+            {% endif %}
+            &lt;h1&gt;{{ post.title }}&lt;/h1&gt;
+            &lt;p&gt;{{ post.text|linebreaksbr }}&lt;/p&gt;
+        &lt;/div&gt;
+    {% endblock %}
+</code></pre>
+ <p>
+  现在，我们要扩展
+  <code>
+   base.html
+  </code>
+  。 在
+  <code>
+   content
+  </code>
+  块中，我们想要显示一篇文章的published_date （如果存在的话）， 标题和文本。 但我们应该讨论一些重要的东西，对不对吗？
+ </p>
+ <p>
+  <code>
+   {% if ... %} ... {% endif %}
+  </code>
+  是当我们想检查某样东西（还记得Python简介里的 if ... else ... 吗？）的时候的一种模板记号 。 在这个例子中，我们想要检查文章的
+  <code>
+   published_date
+  </code>
+  不是空的。
+ </p>
+ <p>
+  好的，我们可以刷新我们的页面并查看是否
+  <code>
+   Page not found
+  </code>
+  是不是没有了。
+ </p>
+ <p>
+  <img alt="文章细节页面" src="https://cdn.py2china.cn/study-group/djangogirl/part2/post_detail2.png" style="width: 70%;"/>
+ </p>
+ <p>
+  耶 ！它工作了！
+ </p>
+ <h2 id="还有一件事：部署时刻！">
+  还有一件事：部署时刻！
+ </h2>
+ <p>
+  你的网站如果还能在 PythonAnywhere 正常运转就好了，对吧？让我们再次部署。
+ </p>
+ <pre><code>    $ git status
+    $ git add --all .
+    $ git status
+    $ git commit -m "Added view and template for detailed blog post as well as CSS for the site."
+    $ git push
+</code></pre>
+ <ul>
+  <li>
+   然后，在一个
+   <a href="https://www.pythonanywhere.com/consoles/" target="_blank">
+    PythonAnywhere 的 Bash 终端
+   </a>
+   里运行：
+  </li>
+ </ul>
+ <pre><code>    $ cd my-first-blog
+    $ source myvenv/bin/activate
+    (myvenv)$ git pull
+    [...]
+    (myvenv)$ python manage.py collectstatic
+    [...]
+</code></pre>
+ <ul>
+  <li>
+   最后，跳到
+   <a href="https://www.pythonanywhere.com/web_app_setup/" target="_blank">
+    Web 标签页
+   </a>
+   并点击
+   <strong>
+    重新载入
+   </strong>
+   .
+  </li>
+ </ul>
+ <p>
+  就是这样！祝贺你：）
+ </p>
+</section>

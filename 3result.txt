@@ -1,0 +1,24 @@
+title:贪吃蛇大作战
+abs:使用 cocos2d-python 作为游戏引擎实现《贪吃蛇大作战》
+
+title:皮皮虾，我们走
+abs:100 行 Python 代码实现《皮皮虾，我们走》声控游戏
+
+title:扫码小程序
+abs:一个类似库存管理的系统,实现了基本的扫码入库、出库操作等操作
+
+title:免费博客部署
+abs:介绍 Hexo 以及PythonAnywhere 两种方式部署博客
+
+title:Python职位分析
+abs:项目爬取 智联/拉钩/猎聘/前程 网站上万条职位信息,结合 echarts 做成了可视化报告
+
+title:Python 高频词汇
+abs:分析Python 相关的书籍/stackoverflow/项目文档等内容,提取出高频词汇供背诵
+
+title:2018中国电影票房分析
+abs:爬取了 2018 年国内上映的共 522 部电影数据，结合 pyecharts 进行了可视化展示
+
+title:marvel API 介绍及实践
+abs:介绍 marvel API 及英雄关系图可视化，涉及 api 、爬虫、数据库相关操作
+

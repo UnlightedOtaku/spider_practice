@@ -1,0 +1,302 @@
+<section class="normal markdown-section">
+ <h1 id="django安装">
+  Django安装
+ </h1>
+ <blockquote>
+  <p>
+   <strong>
+    注意
+   </strong>
+   如果你已完成了安装步骤，可以直接进入下一章。
+  </p>
+  <p>
+   本节部分内容基于 Geek Girls Carrots (
+   <a href="https://github.com/ggcarrots/django-carrots" target="_blank">
+    https://github.com/ggcarrots/django-carrots
+   </a>
+   ) 教程而来。
+  </p>
+  <p>
+   本章的部分内容基于
+   <a href="http://django-marcador.keimlink.de/" target="_blank">
+    django-marcador 教程
+   </a>
+   ，使用知识共享署名-4.0 国际许可协议许可。 Django-marcador 教程的版权归 Markus Zapke-Gründemann 所有。
+  </p>
+ </blockquote>
+ <h2 id="虚拟环境">
+  虚拟环境
+ </h2>
+ <p>
+  在安装 Django 之前，我们会让你安装一个非常实用的工具，它可以让你计算机上的编码环境保持整洁。 这个步骤可以跳过，但我们强烈建议你跟着做。 从最佳实践设置开始将会在未来为你省去无数的烦恼！
+ </p>
+ <p>
+  所以，让我们创建一个
+  <strong>
+   虚拟环境
+  </strong>
+  （也称为
+  <em>
+   virtualenv
+  </em>
+  ）。 虚拟环境会以项目为单位将你的 Python/Django 安装隔离开。 这意味着对一个网站的修改不会影响到你同时在开发的其他任何一个网站。 优雅吧？
+ </p>
+ <p>
+  你需要做的就是找到您想创建
+  <code>
+   虚拟环境
+  </code>
+  的一个目录 ；比如您的主目录。 在 Windows 上，它可能看起来像
+  <code>
+   C:\Users\Name
+  </code>
+  <strong>（其中 <code> Name </code> 是您的操作系统的用户名）。</strong>
+ </p>
+ <p>
+  在本教程中我们将使用您的 home 目录下的一个新目录
+  <code>
+   djangogirls
+  </code>
+  ：
+ </p>
+ <pre><code>mkdir djangogirls
+cd djangogirls
+</code></pre>
+ <p>
+  我们将虚拟环境称为
+  <code>
+   myvenv
+  </code>
+  。一般的命令格式是：
+ </p>
+ <pre><code>python3 -m venv myvenv
+</code></pre>
+ <h3 id="windows系统">
+  Windows系统
+ </h3>
+ <p>
+  若要创建新的 <code> 虚拟环境 </code>，需要先打开控制台，打开后如下图所示：
+  </p>
+  <p><img alt="django目录" src="https://cdn.py2china.cn/study-group/djangogirl/part1/creat_venv0.png" style="width: 80%;"/></p>
+  <p>
+   <br />
+  我们决定把虚拟环境和之后的项目都放在一个叫做 <code> djangogirls </code> 的文件夹中。试着通过 <code> cd djangogirls </code> 进入这个叫做 <code> djangogirls </code> 的文件夹，在其中完成你接下来虚拟环境的创建（如果对命令行的操作还不熟悉，可以先去看看这个：<a href="https://python666.cn/cls/lesson/21/" target="_blank">【Python 第20课】命令行常用命令</a>）。
+  </p>
+  <p>第一次进入 <code> djangogirls </code> 文件夹时会失败，因为你还没有 <code> djangogirls </code> 这个文件夹，所以首先需要通过 <code> mkdir djangogirls </code> 新建这样一个文件夹，然后再 <code> cd djangogirls </code> 进入 <code> C:\Users\<strong>Name</strong>\djangogirls </code><strong>（其中 <code> Name </code> 是你的 windows 系统的用户名）</strong>，下次打开控制台后，就可以直接通过 <code> cd djangogirls </code> 进入，不用再次新建文件夹了。
+  </p>
+  <p><img alt="django目录" src="https://cdn.py2china.cn/study-group/djangogirl/part1/creat_venv1.png" style="width: 60%;"/></p>
+ <br />
+  <p>进入后，运行
+  <code>
+   C:\Python36\python -m venv myvenv
+  </code>
+  。 它看起来会像这样<strong>（其中 <code> Name </code> 是你的 windows 系统的用户名）</strong>：
+ </p>
+ <pre><code>C:\Users\<strong>Name</strong>\djangogirls&gt; C:\Python36\python -m venv myvenv
+</code></pre>
+ <p><strong>注意：</strong></p>
+ <p>1、<code> C:\Python36 </code>是您之前安装 Python 的目录，你需要将其换成你自己的 python 所在目录，如果你已经将 python 添加进了<code>环境变量</code>，那么可以直接运行：<code>python -m venv myvenv</code></p>
+ <p>2、<code> myvenv </code>是你 <code> 虚拟环境 </code> 的名字。 你可以使用其他任何名字，但请坚持使用小写，并不要使用空格、重音符号或特殊字符。 始终保持名称短小是个好主意 — — 你会大量引用它 ！</p>
+ <p><img alt="django目录" src="https://cdn.py2china.cn/study-group/djangogirl/part1/creat_venv2.png" style="width: 60%;"/></p>
+ <br /><br />
+ <h3 id="linux-和-os-x">
+  Linux 和 OS X
+ </h3>
+ <p>
+  在 Linux 和 OS X 上创建的
+  <code>
+   虚拟环境
+  </code>
+  就和运行
+  <code>
+   python3 -m venv myvenv
+  </code>
+  一样简单。看起来像这样：
+ </p>
+ <pre><code>~/djangogirls$ python3 -m venv myvenv
+</code></pre>
+ <p>
+  <code>
+   myvenv
+  </code>
+  是您
+  <code>
+   虚拟环境
+  </code>
+  的名字。 您可以使用其他任何名称，但请始终使用小写以及不要有空格。 始终保持名称短小是个好主意，因为你会大量引用它！
+ </p>
+ <blockquote>
+  <p>
+   <strong>
+    注意：
+   </strong>
+   在Ubuntu 14.04上启动虚拟环境会报以下错误：
+  </p>
+  <pre><code>Error: Command '['/home/eddie/Slask/tmp/venv/bin/python3', '-Im', 'ensurepip', '--upgrade', '--default-pip']' returned non-zero exit status 1
+</code></pre>
+  <p>
+   为了解决这个问题，请使用
+   <code>
+    virtualenv
+   </code>
+   命令。
+  </p>
+  <pre><code>~/djangogirls$ sudo apt install python-virtualenv
+~/djangogirls$ virtualenv --python=python3.6 myvenv
+</code></pre>
+ </blockquote>
+ <h2 id="使用虚拟环境">
+  使用虚拟环境
+ </h2>
+ <p>
+  上面的命令将创建一个名为
+  <code>
+   myvenv
+  </code>
+  目录 （或任何你选择的名字），其中包含我们的虚拟环境 （基本上是一堆的目录和文件）。
+ </p>
+ <h4 id="windows系统">
+  Windows系统
+ </h4>
+ <p>
+  运行如下命令进入你的虚拟环境：
+ </p>
+ <pre><code>C:\Users\Name\djangogirls&gt; myvenv\Scripts\activate
+</code></pre>
+  <p><img alt="使用venv" src="https://cdn.py2china.cn/study-group/djangogirl/part1/creat_venv3.png" style="width: 80%;"/></p>
+ <br/>
+ <h4 id="linux-和-os-x">
+  Linux 和 OS X
+ </h4>
+ <p>
+  运行如下命令进入你的虚拟环境：
+ </p>
+ <pre><code>~/djangogirls$ source myvenv/bin/activate
+</code></pre>
+ <p>
+  记住要将
+  <code>
+   myvenv
+  </code>
+  替换成你选择的
+  <code>
+   虚拟环境
+  </code>
+  的 名字 ！
+ </p>
+ <blockquote>
+  <p>
+   <strong>
+    注：
+   </strong>
+   有时
+   <code>
+    source
+   </code>
+   可能不可用。在这些情况下试着做这面这些事情：
+  </p>
+  <pre><code>~/djangogirls$ . myvenv/bin/activate
+</code></pre>
+ </blockquote>
+ <p>当你看到在您的控制台中有如下提示就知道你已经进入 <code> 虚拟环境 </code> ：</p>
+ <pre><code>(myvenv) C:\Users\Name\djangogirls&gt;
+</code></pre>
+ <p>
+  或：
+ </p>
+ <pre><code>(myvenv) ~/djangogirls$
+</code></pre>
+ <p>
+  注意
+  <code>
+   （myvenv）
+  </code>
+  前缀的出现 ！
+ </p>
+ <p><img alt="使用venv" src="https://cdn.py2china.cn/study-group/djangogirl/part1/creat_venv4.png" style="width: 80%;"/></p>
+ <p>
+  当在一个虚拟的环境中工作时，
+  <code>
+   python
+  </code>
+  将自动指向正确的版本，因此您可以使用
+  <code>
+   python
+  </code>
+  代替
+  <code>
+   python3
+  </code>
+  .
+ </p>
+ <p>
+  好的现在所有重要的依赖关系已经就位。最后，我们可以安装 Django ！
+ </p>
+ <h2 id="安装-django">
+  安装 Django
+ </h2>
+ <p>
+  既然你有了
+  <code>
+   虚拟环境
+  </code>
+  ，您可以使用
+  <code>
+   pip
+  </code>
+  安装 Django 。在控制台中，运行
+  <code>
+   pip install django
+  </code>
+  （注意我们使用双等于号：
+  <code>
+   ==
+  </code>
+  ).
+ </p>
+ <p>
+  <strong>在 Windows 上</strong>（其中 <code>Name</code> 是你的 windows 系统的用户名）
+ </p>
+ <pre><code>(myvenv) C:\Users\<strong>Name</strong>\djangogirls> pip install django
+Collecting django
+Downloading ...
+...
+Installing collected packages: sqlparse, pytz, django
+Successfully installed django-2.2.6 pytz-2019.3 sqlparse-0.3.0
+</code></pre>
+ <blockquote>
+  <p>
+   如果你在 Windows 平台上调用 pip 时得到一个错误，请检查是否您项目的路径名是否包含空格、 重音符号或特殊字符 (如：
+   <code>
+    C:\Users\User Name\djangogirls
+   </code>
+   )。 若的确如此，请尝试移动它到另外一个没有空格、重音符号或特殊字符的目录，（例如：
+   <code>
+    C:\djangogirls
+   </code>
+   ）。 在移动之后，请重试上面的命令。
+  </p>
+ </blockquote>
+ <p>安装成功后如下图所示：</p>
+ <p><img alt="使用venv" src="https://cdn.py2china.cn/study-group/djangogirl/update/1.png" style="width: 80%;"/></p>
+ <br/>
+ <p><strong>在 Linux 上</strong></p>
+  <pre><code>(myvenv) ~$ pip install django
+Collecting django
+Downloading ...
+...
+Successfully installed ...
+</code></pre>
+ <blockquote>
+  <p>
+   如果你在Ubuntu 12.04上得到一个错误，请运行
+   <code>
+    pip python -m pip install -U --force-reinstall pip
+   </code>
+   来修复虚拟环境中的pip安装。
+  </p>
+ </blockquote>
+ <p>
+  就是这样！你现在（终于）准备好创建一个 Django 应用程序！
+ </p>
+</section>

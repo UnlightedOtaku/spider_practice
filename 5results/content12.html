@@ -1,0 +1,191 @@
+<section class="normal markdown-section">
+ <h1 id="django模板">
+  Django模板
+ </h1>
+ <p>
+  是时候把数据展示出来了！Django提供了一些非常有用的内置
+  <strong>
+   模板标签
+  </strong>
+  来实现数据展示
+ </p>
+ <h2 id="什么是模板标签呢？">
+  什么是模板标签呢？
+ </h2>
+ <p>
+  正如你在前面章节中所了解的那样， 我们并不能将 Python 代码嵌入到HTML中。 因为浏览器不能识别 Python 代码， 它只能解析HTML。 我们知道，HTML是静态页面，而 Python 则显得更加动态。
+ </p>
+ <p>
+  <strong>
+   Django模板标签
+  </strong>
+  允许我们将Python之类的内容翻译成HTML，所以你可以更快更简单的建立动态网站。哈哈！
+ </p>
+ <h2 id="展现文章列表模板">
+  展现文章列表模板
+ </h2>
+ <p>
+  在之前的章节，我们给我们的模板一系列文章在
+  <code>
+   post
+  </code>
+  变量里。现在我们将在HTML里展现它。
+ </p>
+ <p>
+  为了用模板标签在HTML中显示变量， 我们会使用两个大括号， 并将变量包含在里面，正如这样
+ </p>
+ <pre><code class="lang-html">    {{ posts }}
+</code></pre>
+ <p>
+  在你的
+  <code>
+   blog/templates/blog/post_list.html
+  </code>
+  文件中进行如下的操作。 将第二个
+  <code>
+   &lt;div&gt;
+  </code>
+  到第三个
+  <code>
+   &lt;/div&gt;
+  </code>
+  中的所有内容用
+  <code>
+   {{ posts }}
+  </code>
+  代替。 并保存文件，刷新页面后去看看我们做的那些改变。
+ </p>
+ <p>
+  <img alt="图 13.1" src="https://cdn.py2china.cn/study-group/djangogirl/part2/step7.png" style="width: 60%;"/>
+ </p>
+ <p>
+  如你所见，我们得到如下：
+ </p>
+ <pre><code>    &lt;QuerySet [&lt;Post: My second post&gt;, &lt;Post: My first post&gt;]&gt;
+</code></pre>
+ <p>
+  这意味着Django视它为对象的列表。 还记得在
+  <strong>
+   Python入门介绍
+  </strong>
+  里我们怎么展现列表的吗？ 是的， 我们可以使用循环！ 在dajngo模板中使用循环去遍历它们。如下所示：
+ </p>
+ <pre><code class="lang-html">    {% for post in posts %}
+        {{ post }}
+    {% endfor %}
+</code></pre>
+ <p>
+  在你的模板里试试这个。
+ </p>
+ <p>
+  <img alt="图 13.2" src="https://cdn.py2china.cn/study-group/djangogirl/part2/step8.png" style="width: 60%;"/>
+ </p>
+ <p>
+  它工作了！ 但是想让他们展现的像我们之前在
+  <strong>
+   HTML介绍
+  </strong>
+  章节里创建的静态文章一样 你可以混合HTML和模板标签。 我们的
+  <code>
+   body
+  </code>
+  将长得像这样：
+ </p>
+ <pre><code class="lang-html">    <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"/"</span>&gt;</span>Django Girls Blog<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+
+    {% for post in posts %}
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>published: {{ post.published_date }}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">""</span>&gt;</span>{{ post.title }}<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>{{ post.text|linebreaksbr }}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    {% endfor %}
+</code></pre>
+ <p>
+  所有的在
+  <code>
+   {% for %}
+  </code>
+  和
+  <code>
+   {% endfor %}
+  </code>
+  之间的内容将会被Django对象列表中的每个对象所代替。刷新页面去看看：
+ </p>
+ <p>
+  <img alt="图 13.3" src="https://cdn.py2china.cn/study-group/djangogirl/part2/step9.png" style="width: 60%;"/>
+ </p>
+ <p>
+  你注意到这次我们使用了一个明显不同的标记
+  <code>
+   {{ post.title }}
+  </code>
+  或
+  <code>
+   {{ post.text }}
+  </code>
+  ？ 我们正在访问定义在
+  <code>
+   Post
+  </code>
+  模型中的每一个域。 此外，
+  <code>
+   |linebreaksbr
+  </code>
+  通过一个过滤器，使得文本中两个换行符之间的内容看上去好像一个段落一样。
+ </p>
+ <h2 id="还有一件事">
+  还有一件事
+ </h2>
+ <p>
+  如果我们将我们的网站放在互联网上运行，那将是一件很不错的事情，难道不是吗？ 让我们试着再次部署到 PythonAnywhere。简单部署步骤如下... ...
+ </p>
+ <ul>
+  <li>
+   首先，我们将我们的代码放到GitHub
+  </li>
+ </ul>
+ <pre><code>    $ git status
+    [...]
+    $ git add --all .
+    $ git status
+    [...]
+    $ git commit -m "Modified templates to display posts from database."
+    [...]
+    $ git push
+</code></pre>
+ <ul>
+  <li>
+   然后，重新登陆
+   <a href="https://www.pythonanywhere.com/consoles/" target="_blank">
+    PythonAnywhere
+   </a>
+   并进入
+   <strong>
+    Bash 控制台
+   </strong>
+   (或重开一个)，并运行:
+  </li>
+ </ul>
+ <pre><code>    $ cd my-first-blog
+    $ git pull
+    [...]
+</code></pre>
+ <ul>
+  <li>
+   最后， 我们返回
+   <a href="https://www.pythonanywhere.com/web_app_setup/" target="_blank">
+    Web tab
+   </a>
+   重新加载我们的应用程序， 此时我们应该可以看到更新后的程序运行情况了。
+  </li>
+ </ul>
+ <p>
+  祝贺你！现在往前走，尝试在你的Django管理中添加一篇新文章（记得添加发布日期！），然后刷新你的页面看看是否文章正常显示了。
+ </p>
+ <p>
+  这一定是个让人沉醉的作品？为此我们应当骄傲， 在计算机学科的一点儿进步，都是自我的一次突破 :)。
+ </p>
+</section>

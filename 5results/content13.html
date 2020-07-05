@@ -1,0 +1,524 @@
+<section class="normal markdown-section">
+ <h1 id="css---让它更好看！">
+  CSS - 让它更好看！
+ </h1>
+ <p>
+  我们的博客看起来仍然很丑吧？是时候来让它变得更好看了！为此，我们将引入CSS。
+ </p>
+ <h2 id="什么是-css？">
+  什么是 CSS？
+ </h2>
+ <p>
+  层叠样式表(Cascading Style Sheets)是一种语言，用来描述使用标记语言(如HTML)写成的网站的外观和格式。把它当做我们网站的化妆 ;)。
+ </p>
+ <p>
+  但我们不想总是从零开始，对吧？ 我们将会再一次采用程序员们编写并发布到互联网上的免费玩意。 重新发明轮子十分无趣，你懂的。
+ </p>
+ <h2 id="让我们用-bootstrap-吧！">
+  让我们用 Bootstrap 吧！
+ </h2>
+ <p>
+  Bootstrap是最流行的HTML和CSS框架之一，它可以用来开发炫酷的网站:
+  <a href="https://getbootstrap.com/" target="_blank">
+   https://getbootstrap.com/
+  </a>
+  （Bootstrap中文地址：
+  <a href="https://v3.bootcss.com/" target="_blank">
+   https://v3.bootcss.com/
+  </a>
+  ）
+ </p>
+ <p>
+  起初，它由Twitter的程序员编写，现在由来自世界各地的志愿者写的。
+ </p>
+ <h2 id="安装-boostrap">
+  安装 Boostrap
+ </h2>
+ <p>
+  若要安装Bootstrap，您需要将它添加到你的
+  <code>
+   .html
+  </code>
+  文件的
+  <code>
+   &lt;head&gt;
+  </code>
+  中：
+ </p>
+ <p>
+ </p>
+ <p class="code-label">
+  blog/templates/blog/post_list.html
+ </p>
+ <p>
+ </p>
+ <pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">"stylesheet"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">"stylesheet"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css"</span>&gt;</span>
+</code></pre>
+ <p>
+  这不会向你的项目添加任何文件。它只是指向在互联网上存在的文件。只需要继续打开您的网站并刷新页面。你瞧！
+ </p>
+ <p>
+  <img alt="图 14.1" src="https://cdn.py2china.cn/study-group/djangogirl/part2/bootstrap1.png" style="width: 60%;"/>
+ </p>
+ <p>
+  已经变得更好看了！
+ </p>
+ <h2 id="django-中的静态文件">
+  Django 中的静态文件
+ </h2>
+ <p>
+  最后我们来看看这些我们叫做
+  <strong>
+   静态文件
+  </strong>
+  的东西。 静态文件是指你所有的CSS文件和图片文件，这些文件不是动态的，对所有用户都是一样，不会因为请求内容而发生变化。
+ </p>
+ <h3 id="django的静态文件放在哪儿呢？">
+  Django的静态文件放在哪儿呢？
+ </h3>
+ <p>
+  Django已经知道到何处找到内建“admin”应用的静态文件。现在我们只需要给我们的
+  <code>
+   blog
+  </code>
+  应用添加一些静态文件。
+ </p>
+ <p>
+  我们在blog应用的目录下创建一个名为
+  <code>
+   static
+  </code>
+  的文件夹，创建后目录结构如下：
+ </p>
+ <pre><code>    djangogirls
+    ├── blog
+    │   ├── migrations
+    │   ├── static
+    │   └── templates
+    └── mysite
+</code></pre>
+ <p>
+  Django会自动找到你应用文件夹目录下所有名字叫“static”的文件夹，并能够使用其中的静态文件。
+ </p>
+ <h2 id="你的第一个-css-文件！">
+  你的第一个 CSS 文件！
+ </h2>
+ <p>
+  现在让我们创建一个 CSS 文件，为了在您的 web 页中添加你自己的风格。 在
+  <code>
+   static
+  </code>
+  的目录下创建一个新的目录称为
+  <code>
+   css
+  </code>
+  。 然后，在这个
+  <code>
+   css
+  </code>
+  目录里创建一个新的文件，称为
+  <code>
+   blog.css
+  </code>
+  。 准备好了吗？
+ </p>
+ <pre><code>    djangogirls
+    └─── blog
+         └─── static
+              └─── css
+                   └─── blog.css
+</code></pre>
+ <p>
+  是时候来写一些CSS了！首先用你的代码编辑器打开
+  <code>
+   blog/static/css/blog.css
+  </code>
+  。
+ </p>
+ <p>
+  在这里我们不会太深入学习自定义和关于 CSS的内容 ，因为这些内容很容易而且您可以在本教程结束后自行学习。这页的最后会推荐一个免费课程来学习更多相关的内容。
+ </p>
+ <p>
+  但至少要做一点吧。 也许我们可以改变我们标题的颜色？ 计算机使用特殊的编码来了解颜色。 它们以
+  <code>
+   #
+  </code>
+  开始，后面跟着 6 个字母 （A 到 F) 或数字 (0-9)。例如，蓝色的的编码是
+  <code>
+   #0000FF
+  </code>
+  你在这里可以发现许多颜色的编码：
+  <a href="http://www.colorpicker.com/" target="_blank">
+   http://www.colorpicker.com/
+  </a>
+  。你也可以使用
+  <a href="https://www.w3school.com.cn/cssref/css_colornames.asp" target="_blank">
+   预先定义的颜色
+  </a>
+  ，如
+  <code>
+   red
+  </code>
+  和
+  <code>
+   green
+  </code>
+  。
+ </p>
+ <p>
+  在你的
+  <code>
+   blog/static/css/blog.css
+  </code>
+  文件中添加下面的代码:
+ </p>
+ <pre><code class="lang-css">    <span class="hljs-selector-tag">h1</span> <span class="hljs-selector-tag">a</span> {
+        <span class="hljs-attribute">color</span>: <span class="hljs-number">#FCA205</span>;
+    }
+</code></pre>
+ <p>
+  <code>
+   h1 a
+  </code>
+  是CSS选择器。 这意味着我们要将我们的样式应用于在
+  <code>
+   h1
+  </code>
+  元素的任何
+  <code>
+   a
+  </code>
+  元素 。所以，当我们的代码中有类似
+  <code>
+   &lt;h1&gt;&lt;a href=""&gt;link&lt;/a&gt;&lt;/h1&gt;
+  </code>
+  的代码， 上述的样式就会被应用。在这种情况下，我们会告诉它要改变其颜色为
+  <code>
+   #FCA205
+  </code>
+  ，它是橙色的。 当然，你可以把自己的颜色放在这里！
+ </p>
+ <p>
+  在 CSS 文件中，我们决定HTML 文件中元素的样式。我们标识元素的第一种方式是用元素名。你可能把来自于HTML段落的这些元素名当做了标签记忆。 例如
+  <code>
+   a
+  </code>
+  ，
+  <code>
+   h1
+  </code>
+  ，
+  <code>
+   body
+  </code>
+  ，这些都是元素名。我们也用属性去标识元素，如
+  <code>
+   class
+  </code>
+  或属性
+  <code>
+   id
+  </code>
+  。 类和 id 是你自己给该元素的命名。 类定义元素组，并指向特定元素的 id。 例如，可以使用标记名称
+  <code>
+   a
+  </code>
+  、 类
+  <code>
+   external_link
+  </code>
+  或 id
+  <code>
+   link_to_wiki_page
+  </code>
+  标识以下标签：
+ </p>
+ <pre><code class="lang-html">    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"https://en.wikipedia.org/wiki/Django"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"external_link"</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"link_to_wiki_page"</span>&gt;</span>
+</code></pre>
+ <p>
+  可以在
+  <a href="https://www.w3school.com.cn/css/index.asp" target="_blank">
+   W3S CSS 教程
+  </a>
+  了解更多.
+ </p>
+ <p>
+  我们还需要告诉我们的 HTML 模板，我们添加了一些 CSS。打开
+  <code>
+   blog/templates/blog/post_list.html
+  </code>
+  文件并在文件最开始的地方添加以下代码：
+ </p>
+ <pre><code class="lang-html">    {% load static %}
+</code></pre>
+ <p>
+  我们刚刚加载了静态文件到这里（译者注：这里实际上是为模板引入静态文件相关的辅助方法）：）。 然后，在
+  <code>
+   &lt;head&gt;
+  </code>
+  和
+  <code>
+   &lt;/head &gt;
+  </code>
+  之间，在Bootstrap的CSS文件的引导之后添加以下行：
+ </p>
+ <pre><code class="lang-html">    <span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">"stylesheet"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"{% static 'css/blog.css' %}"</span>&gt;</span>
+</code></pre>
+ <p>
+  浏览器按照给定文件的顺序读取文件，所以我们需要确保代码在正确的位置，否则我们文件中的代码可能会覆盖Bootstrap文件中的代码。我们只是告诉我们的模板我们的 CSS 文件所在的位置。
+ </p>
+ <p>
+  现在，您的文件应该像这样：
+ </p>
+ <pre><code class="lang-html">    {% load static %}
+    <span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>Django Girls blog<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">"stylesheet"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">"stylesheet"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css"</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">"stylesheet"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"{% static 'css/blog.css' %}"</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"/"</span>&gt;</span>Django Girls Blog<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+
+            {% for post in posts %}
+                <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>published: {{ post.published_date }}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">""</span>&gt;</span>{{ post.title }}<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>{{ post.text|linebreaksbr }}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+                <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+            {% endfor %}
+        <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span>
+</code></pre>
+ <p>
+  好的保存该文件并刷新网站 ！
+ </p>
+ <p>
+  <img alt="图 14.2" src="https://cdn.py2china.cn/study-group/djangogirl/part2/color2.png" style="width: 60%;"/>
+ </p>
+ <p>
+  干得好 ！我想，也许我们也给我们的网站一点空间并增加左边缘。让我们来试试这个 ！
+ </p>
+ <pre><code class="lang-css">    <span class="hljs-selector-tag">body</span> {
+        <span class="hljs-attribute">padding-left</span>: <span class="hljs-number">15px</span>;
+    }
+</code></pre>
+ <p>
+  将它添加到你的 css 代码，保存该文件并查看它如何工作 ！
+ </p>
+ <p>
+  <img alt="图 14.3" src="https://cdn.py2china.cn/study-group/djangogirl/part2/margin2.png" style="width: 60%;"/>
+ </p>
+ <p>
+  也许我们可以在我们的头中自定义字体吗？粘贴到你的
+  <code>
+   &lt; head &gt;
+  </code>
+  在
+  <code>
+   blog/templates/blog/post_list.html
+  </code>
+  文件中：
+ </p>
+ <pre><code class="lang-html">    <span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"//fonts.googleapis.com/css?family=Lobster&amp;subset=latin,latin-ext"</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">"stylesheet"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text/css"</span>&gt;</span>
+</code></pre>
+ <p>
+  这行将从谷歌的字体 （
+  <a href="https://www.google.com/fonts" target="_blank">
+   https://www.google.com/fonts
+  </a>
+  ） 中导入称为
+  <em>
+   龙虾
+  </em>
+  的字体 。
+ </p>
+ <p>
+  现在添加一行
+  <code>
+   font-family: 'Lobster';
+  </code>
+  到CSS文件
+  <code>
+   blog/static/css/blog.css
+  </code>
+  的
+  <code>
+   h1 a
+  </code>
+  声明块中(花括弧
+  <code>
+   {
+  </code>
+  与
+  <code>
+   }
+  </code>
+  之间的代码)，然后刷新页面：
+ </p>
+ <pre><code class="lang-css">    <span class="hljs-selector-tag">h1</span> <span class="hljs-selector-tag">a</span> {
+        <span class="hljs-attribute">color</span>: <span class="hljs-number">#FCA205</span>;
+        <span class="hljs-attribute">font-family</span>: <span class="hljs-string">'Lobster'</span>;
+    }
+</code></pre>
+ <p>
+  <img alt="图 14.3" src="https://cdn.py2china.cn/study-group/djangogirl/part2/font.png" style="width: 60%;"/>
+ </p>
+ <p>
+  太棒了！
+ </p>
+ <p>
+  如上文所述，CSS 有一个概念叫做类，其中基本上允许您命名的 HTML 代码的一部分并只对这部分应用样式，不会影响其他部分。 它是超级有用的如果你有两个 div，但他们有些很多不一样 （如您的标题和你的帖子）。类可以帮你让它们看起来不同。
+ </p>
+ <p>
+  继续命名部分HTML 代码。添加一个称为
+  <code>
+   page-header
+  </code>
+  的类到您的
+  <code>
+   div
+  </code>
+  中，其中包含您的标题，像这样：
+ </p>
+ <pre><code class="lang-html">    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"page-header"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"/"</span>&gt;</span>Django Girls Blog<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+</code></pre>
+ <p>
+  和现在将包含一篇博客文章的类
+  <code>
+   post
+  </code>
+  添加到您的
+  <code>
+   div
+  </code>
+  。
+ </p>
+ <pre><code class="lang-html">    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"post"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>published: {{ post.published_date }}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">""</span>&gt;</span>{{ post.title }}<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>{{ post.text|linebreaksbr }}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+</code></pre>
+ <p>
+  现在，我们将向不同的选择器添加声明块。 选择器以
+  <code>
+   .
+  </code>
+  开始，关联到类。 网络上有很多很棒的CSS教程以及相关解释，帮助您理解下面的代码。 至于现在，就简单地复制粘贴到你的
+  <code>
+   blog/static/css/blog.css
+  </code>
+  文件中吧。
+ </p>
+ <pre><code class="lang-css">    <span class="hljs-selector-class">.page-header</span> {
+        <span class="hljs-attribute">background-color</span>: <span class="hljs-number">#ff9400</span>;
+        <span class="hljs-attribute">margin-top</span>: <span class="hljs-number">0</span>;
+        <span class="hljs-attribute">padding</span>: <span class="hljs-number">20px</span> <span class="hljs-number">20px</span> <span class="hljs-number">20px</span> <span class="hljs-number">40px</span>;
+    }
+
+    <span class="hljs-selector-class">.page-header</span> <span class="hljs-selector-tag">h1</span>, <span class="hljs-selector-class">.page-header</span> <span class="hljs-selector-tag">h1</span> <span class="hljs-selector-tag">a</span>, <span class="hljs-selector-class">.page-header</span> <span class="hljs-selector-tag">h1</span> <span class="hljs-selector-tag">a</span><span class="hljs-selector-pseudo">:visited</span>, <span class="hljs-selector-class">.page-header</span> <span class="hljs-selector-tag">h1</span> <span class="hljs-selector-tag">a</span><span class="hljs-selector-pseudo">:active</span> {
+        <span class="hljs-attribute">color</span>: <span class="hljs-number">#ffffff</span>;
+        <span class="hljs-attribute">font-size</span>: <span class="hljs-number">36pt</span>;
+        <span class="hljs-attribute">text-decoration</span>: none;
+    }
+
+    <span class="hljs-selector-class">.content</span> {
+        <span class="hljs-attribute">margin-left</span>: <span class="hljs-number">40px</span>;
+    }
+
+    <span class="hljs-selector-tag">h1</span>, <span class="hljs-selector-tag">h2</span>, <span class="hljs-selector-tag">h3</span>, <span class="hljs-selector-tag">h4</span> {
+        <span class="hljs-attribute">font-family</span>: <span class="hljs-string">'Lobster'</span>, cursive;
+    }
+
+    <span class="hljs-selector-class">.date</span> {
+        <span class="hljs-attribute">float</span>: right;
+        <span class="hljs-attribute">color</span>: <span class="hljs-number">#828282</span>;
+    }
+
+    <span class="hljs-selector-class">.save</span> {
+        <span class="hljs-attribute">float</span>: right;
+    }
+
+    <span class="hljs-selector-class">.post-form</span> <span class="hljs-selector-tag">textarea</span>, <span class="hljs-selector-class">.post-form</span> <span class="hljs-selector-tag">input</span> {
+        <span class="hljs-attribute">width</span>: <span class="hljs-number">100%</span>;
+    }
+
+    <span class="hljs-selector-class">.top-menu</span>, <span class="hljs-selector-class">.top-menu</span><span class="hljs-selector-pseudo">:hover</span>, <span class="hljs-selector-class">.top-menu</span><span class="hljs-selector-pseudo">:visited</span> {
+        <span class="hljs-attribute">color</span>: <span class="hljs-number">#ffffff</span>;
+        <span class="hljs-attribute">float</span>: right;
+        <span class="hljs-attribute">font-size</span>: <span class="hljs-number">26pt</span>;
+        <span class="hljs-attribute">margin-right</span>: <span class="hljs-number">20px</span>;
+    }
+
+    <span class="hljs-selector-class">.post</span> {
+        <span class="hljs-attribute">margin-bottom</span>: <span class="hljs-number">70px</span>;
+    }
+
+    <span class="hljs-selector-class">.post</span> <span class="hljs-selector-tag">h1</span> <span class="hljs-selector-tag">a</span>, <span class="hljs-selector-class">.post</span> <span class="hljs-selector-tag">h1</span> <span class="hljs-selector-tag">a</span><span class="hljs-selector-pseudo">:visited</span> {
+        <span class="hljs-attribute">color</span>: <span class="hljs-number">#000000</span>;
+    }
+</code></pre>
+ <p>
+  然后将文章的HTML代码用类声明包裹起来。替换以下内容：
+ </p>
+ <pre><code class="lang-html">    {% for post in posts %}
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"post"</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>published: {{ post.published_date }}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">""</span>&gt;</span>{{ post.title }}<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>{{ post.text|linebreaksbr }}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    {% endfor %}
+</code></pre>
+ <p>
+  在
+  <code>
+   blog/templates/blog/post_list.html
+  </code>
+  是这样的：
+ </p>
+ <pre><code class="lang-html">    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"content container"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"row"</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"col-md-8"</span>&gt;</span>
+                {% for post in posts %}
+                    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"post"</span>&gt;</span>
+                        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"date"</span>&gt;</span>
+                            {{ post.published_date }}
+                        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+                        <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">""</span>&gt;</span>{{ post.title }}<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+                        <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>{{ post.text|linebreaksbr }}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+                    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+                {% endfor %}
+            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+</code></pre>
+ <p>
+  保存这些文件并刷新您的网站。
+ </p>
+ <p>
+  <img alt="图 14.4" src="https://cdn.py2china.cn/study-group/djangogirl/part2/final.png" style="width: 100%;"/>
+ </p>
+ <p>
+  呜呼 ！看起来棒极了，是吧？看看我们刚在HTML粘贴加入的类以及在CSS中使用的代码。如果你想要时间变成绿松石色，你该在哪里做改变呢？
+ </p>
+ <p>
+  不要害怕摆弄这个 CSS，并试图去改变一些东西。调整CSS可以帮你搞明白不同的东西怎样工作。如果你做错了什么东西，别担心，您总是可以撤消它 ！
+ </p>
+ <p>
+  我们非常建议在线免费学习这个
+  <a href="https://www.codecademy.com/tracks/web" target="_blank">
+   Codeacademy HTML 和 CSS 课程
+  </a>
+  。它可以帮你学到一切你需要知道的有关如何通过CSS使你的网站更漂亮。
+ </p>
+ <p>
+  准备好下一章了吗？:)
+ </p>
+</section>

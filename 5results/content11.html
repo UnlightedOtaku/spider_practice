@@ -1,0 +1,249 @@
+<section class="normal markdown-section">
+ <h1 id="模板中的动态数据">
+  模板中的动态数据
+ </h1>
+ <p>
+  我们已有的几件：
+  <code>
+   Post
+  </code>
+  模型定义在
+  <code>
+   models.py
+  </code>
+  中，
+  <code>
+   views.py
+  </code>
+  中的
+  <code>
+   post_list
+  </code>
+  和已经添加的模板。但实际上我们如何使我们的帖子出现在我们的 HTML 模板上呢？ 因为那是我们所想要的： 获取一些内容 （保存在数据库中的模型） 然后在我们的模板中很漂亮的展示，对吗？
+ </p>
+ <p>
+  这就是
+  <em>
+   views
+  </em>
+  应该做的： 连接模型和模板。 在我们的
+  <code>
+   post_list
+  </code>
+  <em>
+   视图
+  </em>
+  中我们需要获取我们想要显示的模型，并将它们传递到模板中去。 所以基本上在
+  <em>
+   视图
+  </em>
+  中，我们决定什么 （模型） 将显示在模板中。
+ </p>
+ <p>
+  好吧，我们将如何实现它呢？
+ </p>
+ <p>
+  我们需要打开我们的
+  <code>
+   blog/views.py
+  </code>
+  。到目前为止
+  <code>
+   post_list
+  </code>
+  <em>
+   view
+  </em>
+  看起来像这样：
+ </p>
+ <pre><code>from django.shortcuts import render
+
+def post_list(request):
+    return render(request, 'blog/post_list.html', {})
+</code></pre>
+ <p>
+  还记得当我们谈论过导入在不同文件中编写的代码吗？ 现在是我们必须导入我们已经写在
+  <code>
+   models.py
+  </code>
+  里的模型的时候了。 我们将添加这行
+  <code>
+   from .models import Post
+  </code>
+  ，像这样：
+ </p>
+ <pre><code>from django.shortcuts import render
+from .models import Post
+</code></pre>
+ <p>
+  <code>
+   from
+  </code>
+  后面的点号意味着
+  <em>
+   当前目录
+  </em>
+  或
+  <em>
+   当前的应用程序
+  </em>
+  。 因为
+  <code>
+   views.py
+  </code>
+  和
+  <code>
+   models.py
+  </code>
+  是在同一目录中，我们只需要使用
+  <code>
+   .
+  </code>
+  和 文件的名称（无
+  <code>
+   .py
+  </code>
+  ) 。 然后我们导入模型（
+  <code>
+   Post
+  </code>
+  ).
+ </p>
+ <p>
+  但接下来是什么呢？为了让实际的博客帖子从
+  <code>
+   Post
+  </code>
+  模型里获取，我们需要一种叫做
+  <code>
+   QuerySet
+  </code>
+  的东西.
+ </p>
+ <h2 id="queryset-查询集">
+  QuerySet 查询集
+ </h2>
+ <p>
+  您应该已经熟悉 Queryset 是如何工作的。我们在
+  <a href="./djangogirl.html?page=10">
+   Django ORM (Queryset) 章节
+  </a>
+  谈论过它.
+ </p>
+ <p>
+  所以现在我们对已经发表并进行由
+  <code>
+   published_date
+  </code>
+  排序的博客列表感兴趣，对吗？我们已经在 QuerySets 查询集一节里这么干过！
+ </p>
+ <pre><code>Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
+</code></pre>
+ <p>
+  现在我们把这段代码插入
+  <code>
+   blog/views.py
+  </code>
+  文件，添加到函数
+  <code>
+   def post_list(request)
+  </code>
+  里去：
+ </p>
+ <pre><code>from django.shortcuts import render
+from django.utils import timezone
+from .models import Post
+
+def post_list(request):
+    posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
+    return render(request, 'blog/post_list.html', {})
+</code></pre>
+ <p>
+  请注意我们为这里的 QuerySet查询集创建了一个
+  <em>
+   变量
+  </em>
+  ：
+  <code>
+   posts
+  </code>
+  。将此视为我们的 QuerySet 的名字。从现在开始我们可以通过这个名字引用它。
+ </p>
+ <p>
+  同时，代码中使用了
+  <code>
+   timezone.now()
+  </code>
+  函数，因此我们需要添加一个导入
+  <code>
+   timezone
+  </code>
+  .
+ </p>
+ <p>
+  最后还没有完成的部分是传递
+  <code>
+   posts
+  </code>
+  查询集到模板中 （我们将在下一章中介绍如何显示它）。
+ </p>
+ <p>
+  在
+  <code>
+   render
+  </code>
+  函数中我们已经有了
+  <code>
+   请求
+  </code>
+  （我们通过互联网从用户接收的一切） 和模板文件
+  <code>
+   'blog/post_list.html'
+  </code>
+  参数。 最后一个参数，看起来像这样：
+  <code>
+   {}
+  </code>
+  ，我们可以在其中添加一些模板要使用的东西。 我们需要给它们起名字 （我们暂且沿用
+  <code>
+   'posts'
+  </code>
+  :)）。 它应该看起来像这样：
+  <code>
+   {'posts': posts}
+  </code>
+  。 请注意，
+  <code>
+   :
+  </code>
+  之前的部分是字符串；你需要将它用引号包围
+  <code>
+   ''
+  </code>
+  .
+ </p>
+ <p>
+  所以最后我们的
+  <code>
+   blog/views.py
+  </code>
+  文件应如下所示：
+ </p>
+ <pre><code>from django.shortcuts import render
+from django.utils import timezone
+from .models import Post
+
+def post_list(request):
+    posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
+    return render(request, 'blog/post_list.html', {'posts': posts})
+</code></pre>
+ <p>
+  就是它 ！现在回到我们的模板并显示此QuerySet查询集！
+ </p>
+ <p>
+  如果你想了解更多关于QuerySert的内容，那么你可在这里得到帮助：
+  <a href="https://docs.djangoproject.com/zh-hans/2.2/ref/models/querysets/" target="_blank">
+   https://docs.djangoproject.com/zh-hans/2.2/ref/models/querysets/
+  </a>
+ </p>
+</section>

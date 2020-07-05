@@ -1,0 +1,275 @@
+<section class="normal markdown-section">
+ <h1 id="django-orm-和-querysets（查询集）">
+  Django ORM 和 QuerySets（查询集）
+ </h1>
+ <p>
+  在这一章中，你将学习 Django 如何连接到数据库，并将数据存储在里面。一探究竟吧！
+ </p>
+ <h2 id="queryset-是什么呢？">
+  QuerySet 是什么呢？
+ </h2>
+ <p>
+  从本质上说，QuerySet 是给定模型的对象列表（list）。QuerySet 允许您从数据库中读取数据，对其进行筛选以及排序。
+ </p>
+ <p>
+  用例子来学习最容易的了。让我们试试这个，好吗？
+ </p>
+ <h2 id="django-shell">
+  Django shell
+ </h2>
+ <p>
+  打开你本地的终端(不是在Python解析器里面) 然后输入这个命令:
+ </p>
+ <pre><code>(myvenv) ~/djangogirls$ python manage.py shell
+</code></pre>
+ <p>
+  效果应该像这样：
+ </p>
+ <pre><code>(InteractiveConsole)
+&gt;&gt;&gt;
+</code></pre>
+ <p>
+  你现在在 Django 的交互式控制台中。它是就像 Python 提示符，但有一些额外神奇的 Django 特性：）。你当然也可以在这里使用所有的 Python 命令。
+ </p>
+ <h3 id="所有对象">
+  所有对象
+ </h3>
+ <p>
+  首先让我们尝试显示所有我们的文章。你可以用下面的命令：
+ </p>
+ <pre><code>&gt;&gt;&gt; Post.objects.all()
+Traceback (most recent call last):
+      File "&lt;console&gt;", line 1, in &lt;module&gt;
+NameError: name 'Post' is not defined
+</code></pre>
+ <p>
+  哎呀 ！出现了一个错误。它告诉我们没有文章。这是正确的 — — 我们忘了首先导入它 ！
+ </p>
+ <pre><code>&gt;&gt;&gt; from blog.models import Post
+</code></pre>
+ <p>
+  这很简单： 我们从
+  <code>
+   blog.models
+  </code>
+  导入
+  <code>
+   Post
+  </code>
+  的模型。让我们试着再一次显示所有的帖子：
+ </p>
+ <pre><code>&gt;&gt;&gt; Post.objects.all()
+&lt;QuerySet [&lt;Post: my post title&gt;, &lt;Post: another post title&gt;]&gt;
+</code></pre>
+ <p>
+  这是我们之前创建的文章的 list 列表！我们通过使用Django admin界面创建了这些文章。但是我们现在想通过Python来创建新的文章，那么我们应该如何做呢？
+ </p>
+ <h3 id="创建对象">
+  创建对象
+ </h3>
+ <p>
+  这就是你如何在数据库创建一个新的Post对象的方法:
+ </p>
+ <pre><code>&gt;&gt;&gt; Post.objects.create(author=me, title='Sample title', text='Test')
+</code></pre>
+ <p>
+  但是我们这里有一个遗漏的要素：
+  <code>
+   me
+  </code>
+  。我们需要传递
+  <code>
+   User
+  </code>
+  模型的实例作为作者。如何做到这一点？
+ </p>
+ <p>
+  让我们首先导入用户模型：
+ </p>
+ <pre><code>&gt;&gt;&gt; from django.contrib.auth.models import User
+</code></pre>
+ <p>
+  我们在数据库中有哪些用户？试试这个：
+ </p>
+ <pre><code>&gt;&gt;&gt; User.objects.all()
+&lt;QuerySet [&lt;User: ola&gt;]&gt;
+</code></pre>
+ <p>
+  这是一个我们之前创建的超级用户！让我们现在获取一个用户实例：
+ </p>
+ <pre><code>me = User.objects.get(username='ola')
+</code></pre>
+ <p>
+  正如你所看到的，我们现在
+  <code>
+   get
+  </code>
+  一个
+  <code>
+   username
+  </code>
+  等于 'ola' 的
+  <code>
+   User
+  </code>
+  。简单吧！当然，你必须将其改为你所使用的用户名。
+ </p>
+ <p>
+  现在我们终于可以创建我们的文章了:
+ </p>
+ <pre><code>&gt;&gt;&gt; Post.objects.create(author=me, title='Sample title', text='Test')
+</code></pre>
+ <p>
+  哈哈！要检查是否有效吗？
+ </p>
+ <pre><code>&gt;&gt;&gt; Post.objects.all()
+&lt;QuerySet [&lt;Post: my post title&gt;, &lt;Post: another post title&gt;, &lt;Post: Sample title&gt;]&gt;
+</code></pre>
+ <p>
+  就是这样，又一个文章在列表里面！
+ </p>
+ <h3 id="添加更多文章">
+  添加更多文章
+ </h3>
+ <p>
+  你现在可以找点乐子，并添加更多的帖子，看它是如何工作。添加 2-3 个并前进到下一个部分。
+ </p>
+ <h3 id="筛选对象">
+  筛选对象
+ </h3>
+ <p>
+  QuerySets的很大一部分功能是对它们进行筛选。 譬如，我们想要发现所有都由用户ola编写的文章。 我们将使用
+  <code>
+   filter
+  </code>
+  ，而不是
+  <code>
+   all
+  </code>
+  在
+  <code>
+   Post.objects.all()
+  </code>
+  。 我们需要在括号中申明哪些条件，以在我们的 queryset 结果集中包含一篇博客文章。 在我们的情况是
+  <code>
+   author
+  </code>
+  ，它等于
+  <code>
+   me
+  </code>
+  。 把它写在 Django 的方式是：
+  <code>
+   author = me
+  </code>
+  。 现在我们的代码段如下所示：
+ </p>
+ <pre><code>&gt;&gt;&gt; Post.objects.filter(author=me)
+&lt;QuerySet [&lt;Post: Sample title&gt;, &lt;Post: Post number 2&gt;, &lt;Post: My 3rd post!&gt;, &lt;Post: 4th title of post&gt;]&gt;
+</code></pre>
+ <p>
+  或者，也许我们想看到包含在
+  <code>
+   title
+  </code>
+  字段标题的所有帖子吗？
+ </p>
+ <pre><code>&gt;&gt;&gt; Post.objects.filter(title__contains='title')
+&lt;QuerySet [&lt;Post: Sample title&gt;, &lt;Post: 4th title of post&gt;]&gt;
+</code></pre>
+ <blockquote>
+  <p>
+   <strong>
+    注
+   </strong>
+   在
+   <code>
+    title
+   </code>
+   与
+   <code>
+    contains
+   </code>
+   之间有两个下划线字符 (
+   <code>
+    _
+   </code>
+   )。 Django 的 ORM 使用此语法来分隔字段名称 （"title"） 和操作或筛选器 （"contains"）。 如果您只使用一个下划线，您将收到类似"FieldError： 无法解析关键字 title_contains"的错误。
+  </p>
+ </blockquote>
+ <p>
+  你也可以获取一个所有已发布文章的列表。我们通过筛选所有含
+  <code>
+   published_date
+  </code>
+  为过去时间的文章来实现这个目的：
+ </p>
+ <pre><code>&gt;&gt;&gt; from django.utils import timezone
+&gt;&gt;&gt; Post.objects.filter(published_date__lte=timezone.now())
+[]
+</code></pre>
+ <p>
+  不幸的是，通过Python终端添加的文章还没发布。我们可以改变它！首先获取一个我们想要发布的文章实例：
+ </p>
+ <pre><code>&gt;&gt;&gt; post = Post.objects.get(title="Sample title")
+</code></pre>
+ <p>
+  然后将它与我们
+  <code>
+   publish
+  </code>
+  的方法一起发布 ！
+ </p>
+ <pre><code>&gt;&gt;&gt; post.publish()
+</code></pre>
+ <p>
+  现在再一次尝试获取已发布的文章（按向上箭头按钮三次，然后按回车）:
+ </p>
+ <pre><code>&gt;&gt;&gt; Post.objects.filter(published_date__lte=timezone.now())
+&lt;QuerySet [&lt;Post: Sample title&gt;]&gt;
+</code></pre>
+ <h3 id="对象排序">
+  对象排序
+ </h3>
+ <p>
+  Queryset 还允许您排序结果集对象的列表。让我们试着让它们按
+  <code>
+   created_date
+  </code>
+  字段排序：
+ </p>
+ <pre><code>&gt;&gt;&gt; Post.objects.order_by('created_date')
+&lt;QuerySet [&lt;Post: Sample title&gt;, &lt;Post: Post number 2&gt;, &lt;Post: My 3rd post!&gt;, &lt;Post: 4th title of post&gt;]&gt;
+</code></pre>
+ <p>
+  我们也可以在开头添加
+  <code>
+   -
+  </code>
+  来反向排序：
+ </p>
+ <pre><code>&gt;&gt;&gt; Post.objects.order_by('-created_date')
+&lt;QuerySet [&lt;Post: 4th title of post&gt;,  &lt;Post: My 3rd post!&gt;, &lt;Post: Post number 2&gt;, &lt;Post: Sample title&gt;]&gt;
+</code></pre>
+ <h3 id="链式-querysets">
+  链式 QuerySets
+ </h3>
+ <p>
+  你可以通过
+  <strong>
+   链式调用
+  </strong>
+  连续组合QuerySets
+ </p>
+ <pre><code>&gt;&gt;&gt; Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
+</code></pre>
+ <p>
+  这真是强而有力，而且可以让你写较复杂的的查询
+ </p>
+ <p>
+  酷 ！现在，你准备下一个部分 ！若要关闭shell程序，请键入这：
+ </p>
+ <pre><code>&gt;&gt;&gt; exit()
+$
+</code></pre>
+</section>

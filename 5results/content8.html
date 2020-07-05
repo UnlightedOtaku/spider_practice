@@ -1,0 +1,116 @@
+<section class="normal markdown-section">
+ <h1 id="django视图---是时候去创建！">
+  Django视图 - 是时候去创建！
+ </h1>
+ <p>
+  是时候去解决我们在上一章所制造的Bug了：）
+ </p>
+ <p>
+  <em>
+   view
+  </em>
+  是存放应用逻辑的地方。 它将从你之前创建的
+  <code>
+   模型
+  </code>
+  中获取数据，并将它传递给
+  <code>
+   模板
+  </code>
+  。 我们将在下一章创建 tempalte 模板。 视图就是Python方法，只不过比我们在
+  <strong>
+   Python简介
+  </strong>
+  章节中所做的事情稍复杂。
+ </p>
+ <p>
+  视图都被置放在
+  <code>
+   views.py
+  </code>
+  文件中。我们将加入我们自己的
+  <em>
+   views
+  </em>
+  到
+  <code>
+   blog/views.py
+  </code>
+  文件。
+ </p>
+ <h2 id="blogviewspy">
+  blog/views.py
+ </h2>
+ <p>
+  好，让我们打开这个文件，看看里面有什么：
+ </p>
+ <pre><code>from django.shortcuts import render
+
+# Create your views here.
+</code></pre>
+ <p>
+  这里没有太多的东西。一个最简单的
+  <em>
+   view
+  </em>
+  就长得这个样子。
+ </p>
+ <pre><code>def post_list(request):
+    return render(request, 'blog/post_list.html', {})
+</code></pre>
+ <p>
+  如你所见, 我们创建一个方法 (
+  <code>
+   def
+  </code>
+  ) ，命名为
+  <code>
+   post_list
+  </code>
+  ，它接受
+  <code>
+   request
+  </code>
+  参数作为输入， 并
+  <code>
+   return
+  </code>
+  （返回）用
+  <code>
+   render
+  </code>
+  方法渲染模板
+  <code>
+   blog/post_list.html
+  </code>
+  而得到的结果.
+ </p>
+ <p>
+  保存文件，转到
+  <a href="http://127.0.0.1:8000/" target="_blank">
+   http://127.0.0.1:8000/
+  </a>
+  然后看看我们现在得到什么了。
+ </p>
+ <p>
+  另一个错误！读读现在发生了什么：
+ </p>
+ <p>
+  <img alt="错误" src="https://cdn.py2china.cn/study-group/djangogirl/update/view_error.png" style="width: 70%;"/>
+ </p>
+ <p>
+  这个错误很直白：
+  <em>
+   TemplateDoesNotExist
+  </em>
+  。让我们修复这个bug，然后在下一个章节里创建一个模板！
+ </p>
+ <blockquote>
+  <p>
+   阅读更多关于 Django views 的内容请参阅官方文档：
+   <a href="https://docs.djangoproject.com/zh-hans/2.2/topics/http/views/" target="_blank">
+    https://docs.djangoproject.com/zh-hans/2.2/topics/http/views/
+   </a>
+  </p>
+ </blockquote>
+</section>
